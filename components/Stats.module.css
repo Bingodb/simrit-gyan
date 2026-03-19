@@ -1,69 +1,185 @@
 .stats {
-  padding: 6rem 2rem;
+  padding: 7rem 2rem;
+  background: #000;
   position: relative;
   overflow: hidden;
 }
 
-.gradient {
+.bgLine {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1000px;
-  height: 1000px;
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2), transparent);
   pointer-events: none;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 4rem;
   position: relative;
   z-index: 1;
 }
 
-.stat {
+.header {
   text-align: center;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  transition: all 0.3s;
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
-.stat:hover {
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-10px);
-  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50px;
+  color: #667eea;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.value {
-  font-size: 4rem;
+.title {
+  font-size: 3rem;
   font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.highlight {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 0.5rem;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* Card */
+.card {
+  position: relative;
+  padding: 2.5rem 2rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.glowBg {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.card:hover .glowBg {
+  opacity: 1;
+}
+
+/* Icon */
+.iconRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.iconBox {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.5); }
+}
+
+/* Value */
+.value {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 0.6rem;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .label {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 500;
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.3px;
 }
 
-@media (max-width: 768px) {
-  .container {
+/* Progress bar */
+.bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 10px;
+}
+
+@media (max-width: 1024px) {
+  .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   .value {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
 }

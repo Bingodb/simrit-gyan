@@ -1,0 +1,272 @@
+.section {
+  min-height: 100vh;
+  padding: 8rem 2rem 4rem;
+  background: #0d1117;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.heroTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #c9a84c;
+  margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form {
+  background: #161b27;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 16px;
+  padding: 3rem;
+}
+
+.section_block {
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #c9a84c;
+  margin-bottom: 1.5rem;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.field label {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field input[type="number"],
+.field select,
+.field textarea {
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+  width: 100%;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #c9a84c;
+}
+
+.field select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+/* Checkboxes */
+.checkboxGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.checkboxRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #c9a84c;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* File Upload */
+.fileInput {
+  position: relative;
+}
+
+.fileInput input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.fileLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.fileLabel:hover {
+  border-color: #c9a84c;
+}
+
+.fileBtn {
+  background: #c9a84c;
+  color: #000;
+  font-weight: 700;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fileName {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.fileHint {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.25rem;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 2rem 0;
+}
+
+/* Agreement */
+.agreement {
+  margin-bottom: 2rem;
+}
+
+.agreeLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  cursor: pointer;
+  line-height: 1.6;
+}
+
+.agreeLabel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #c9a84c;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.agreeLabel a {
+  color: #c9a84c;
+  text-decoration: underline;
+}
+
+/* Submit */
+.submitWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.submitBtn {
+  background: #c9a84c;
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 1rem 4rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
+  transition: all 0.3s;
+}
+
+.submitBtn:hover {
+  background: #e0bc5a;
+  box-shadow: 0 12px 40px rgba(201, 168, 76, 0.6);
+}
+
+.submitNote {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .form {
+    padding: 2rem 1.5rem;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .checkboxGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkboxRow {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

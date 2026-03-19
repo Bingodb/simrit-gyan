@@ -85,6 +85,15 @@
   width: 100%;
 }
 
+.navHighlight {
+  color: #c9a84c !important;
+  font-weight: 700;
+}
+
+.navHighlight::after {
+  background: #c9a84c !important;
+}
+
 .menuButton {
   display: none;
   background: none;

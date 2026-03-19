@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import Image from 'next/image'
 import styles from './Hero.module.css'
 
 export default function Hero() {
@@ -77,7 +78,15 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <div className={styles.floatingCard}></div>
+          <div className={styles.floatingCard}>
+            <Image 
+              src="/images/headone.jpg" 
+              alt="Student Learning" 
+              fill
+              style={{ objectFit: 'cover' }}
+              className={styles.cardImage}
+            />
+          </div>
           <div className={styles.floatingCard2}></div>
           <div className={styles.floatingCard3}></div>
         </motion.div>

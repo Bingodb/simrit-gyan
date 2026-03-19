@@ -46,6 +46,7 @@ export default function Footer() {
                 { name: 'About', path: '/about' },
                 { name: 'Pricing', path: '/pricing' },
                 { name: 'Gallery', path: '/gallery' },
+                { name: 'Join as Tutor', path: '/join-as-tutor' },
                 { name: 'Contact', path: '/contact' }
               ].map((link) => (
                 <li key={link.name}>

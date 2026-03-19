@@ -47,12 +47,13 @@ export default function Header() {
             { name: 'About', path: '/about' },
             { name: 'Pricing', path: '/pricing' },
             { name: 'Gallery', path: '/gallery' },
+            { name: 'Join as Tutor', path: '/join-as-tutor' },
             { name: 'Contact', path: '/contact' }
           ].map((item, i) => (
             <motion.a
               key={item.name}
               href={item.path}
-              className={styles.navLink}
+              className={`${styles.navLink} ${item.name === 'Join as Tutor' ? styles.navHighlight : ''}`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}

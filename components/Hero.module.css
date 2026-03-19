@@ -135,6 +135,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 .floatingCard {
@@ -144,6 +145,11 @@
   left: 50%;
   transform: translate(-50%, -50%) rotate(-5deg);
   animation: float 6s infinite ease-in-out;
+  position: relative;
+}
+
+.cardImage {
+  border-radius: 20px;
 }
 
 .floatingCard2 {
