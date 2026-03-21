@@ -1,0 +1,30 @@
+[
+  {
+    "phone": "9810000002",
+    "password": "Gurgaon@123",
+    "location": "Gurgaon",
+    "name": "Gurgaon Admin",
+    "createdAt": "2026-03-22"
+  },
+  {
+    "phone": "9810000003",
+    "password": "Connaught@123",
+    "location": "Connaught Place",
+    "name": "CP Admin",
+    "createdAt": "2026-03-22"
+  },
+  {
+    "phone": "9810000004",
+    "password": "UttamNagar@123",
+    "location": "Uttam Nagar",
+    "name": "Uttam Nagar Admin",
+    "createdAt": "2026-03-22"
+  },
+  {
+    "phone": "7668316336",
+    "password": "12345678",
+    "location": "Hauz Khas",
+    "name": "GAURAV SHARMA",
+    "createdAt": "2026-03-21"
+  }
+]

@@ -6,6 +6,12 @@ export const metadata: Metadata = {
   description: 'Professional home tuition services for students of all levels',
 }
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export default function RootLayout({
   children,
 }: {

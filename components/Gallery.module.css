@@ -65,12 +65,39 @@
 }
 
 @media (max-width: 768px) {
+  .gallery {
+    padding: 5rem 1.25rem;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+
   .title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
   }
   
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    padding: 4rem 1rem;
+  }
+
+  .title {
+    font-size: 1.9rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 }

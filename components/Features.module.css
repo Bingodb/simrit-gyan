@@ -1,5 +1,5 @@
 .features {
-  padding: 8rem 2rem;
+  padding: 5rem 1.5rem;
   position: relative;
   overflow: hidden;
   background: #000;
@@ -36,7 +36,7 @@
 
 .header {
   text-align: center;
-  margin-bottom: 5rem;
+  margin-bottom: 3.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,18 +45,18 @@
 
 .badge {
   display: inline-block;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1.25rem;
   background: rgba(102, 126, 234, 0.1);
   border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 50px;
   color: #667eea;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 .title {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-weight: 900;
   color: #fff;
   line-height: 1.2;
@@ -71,21 +71,20 @@
 }
 
 .subtitle {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: rgba(255, 255, 255, 0.5);
   max-width: 500px;
 }
 
-/* Cards Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .card {
   position: relative;
-  padding: 2.5rem 2rem;
+  padding: 2rem 1.75rem;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 24px;
@@ -117,13 +116,13 @@
 }
 
 .iconWrapper {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
@@ -133,24 +132,23 @@
 }
 
 .cardTitle {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.3px;
+  margin-bottom: 0.6rem;
 }
 
 .cardDesc {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.7;
 }
 
 .cardNumber {
   position: absolute;
-  bottom: 1.5rem;
-  right: 1.75rem;
-  font-size: 3.5rem;
+  bottom: 1rem;
+  right: 1.25rem;
+  font-size: 3rem;
   font-weight: 900;
   color: rgba(255, 255, 255, 0.04);
   line-height: 1;
@@ -165,11 +163,26 @@
 }
 
 @media (max-width: 640px) {
+  .features {
+    padding: 4rem 1.25rem;
+  }
+
   .title {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   .grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .features {
+    padding: 4rem 1rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
   }
 }

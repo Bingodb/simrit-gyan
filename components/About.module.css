@@ -372,16 +372,30 @@
 }
 
 @media (max-width: 768px) {
+  .about {
+    padding: 6rem 1.25rem 4rem;
+  }
+
   .title {
-    font-size: 2.6rem;
+    font-size: 2.4rem;
+    letter-spacing: -1px;
   }
 
   .storyGrid {
     grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .storyTitle {
+    font-size: 1.8rem;
   }
 
   .highlights {
     grid-template-columns: 1fr;
+  }
+
+  .header {
+    margin-bottom: 3.5rem;
   }
 
   .locTitle {
@@ -394,8 +408,33 @@
 }
 
 @media (max-width: 480px) {
+  .about {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .storyTitle {
+    font-size: 1.5rem;
+  }
+
+  .milestonesCard {
+    padding: 1.75rem 1.25rem;
+  }
+
   .locGrid {
     grid-template-columns: 1fr;
+  }
+
+  .locTitle {
+    font-size: 1.9rem;
   }
 }
 
@@ -573,6 +612,26 @@
   }
 
   .teamTitle {
+    font-size: 1.9rem;
+    letter-spacing: -0.5px;
+  }
+
+  .ringWrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .ringOuter {
+    width: 90px;
+    height: 90px;
+  }
+
+  .ringInner {
+    width: 74px;
+    height: 74px;
+  }
+
+  .memberEmoji {
     font-size: 2.2rem;
   }
 }

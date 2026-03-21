@@ -99,3 +99,33 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 640px) {
+  .contact {
+    padding: 4rem 1.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .form {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .form input,
+  .form select,
+  .form textarea {
+    font-size: 16px; /* prevents iOS zoom */
+    padding: 0.9rem;
+  }
+
+  .submitBtn {
+    font-size: 1rem;
+    padding: 0.9rem 1.5rem;
+  }
+}
