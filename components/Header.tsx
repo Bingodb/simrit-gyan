@@ -34,6 +34,7 @@ export default function Header() {
           {[
             { name: 'Home', path: '/' },
             { name: 'Services', path: '/services' },
+            { name: 'Need a Tutor', path: '/need-a-tutor' },
             { name: 'About', path: '/about' },
             { name: 'Pricing', path: '/pricing' },
             { name: 'Gallery', path: '/gallery' },
@@ -43,7 +44,7 @@ export default function Header() {
             <motion.a
               key={item.name}
               href={item.path}
-              className={`${styles.navLink} ${item.name === 'Join as Tutor' ? styles.navHighlight : ''}`}
+              className={`${styles.navLink} ${item.name === 'Join as Tutor' ? styles.navHighlight : ''} ${item.name === 'Need a Tutor' ? styles.navNeedTutor : ''}`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}

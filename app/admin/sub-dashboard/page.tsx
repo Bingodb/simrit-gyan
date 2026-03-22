@@ -2,13 +2,23 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import styles from './sub-dashboard.module.css'
-import { MapPin, LogOut, Phone, Users, BookOpen, Plus, Trash2, Eye, EyeOff, User, FileText } from 'lucide-react'
+import { MapPin, LogOut, Phone, Users, BookOpen, Plus, Trash2, Eye, EyeOff, User, FileText, ClipboardList, Bell } from 'lucide-react'
 
 type SessionInfo = { phone: string; location: string; name: string }
 type Teacher = { phone: string; name: string; subject: string; location: string; createdAt: string }
 type Lead = {
   _id?: string; id?: string; studentName: string; parentPhone: string; class: string
   subject: string; address: string; status: string; createdAt: string; note: string
+}
+type Application = {
+  _id: string; fullName: string; email: string; phone: string; address: string
+  qualification: string; fieldOfStudy: string; experience: string; preferredClass: string
+  subjects: string[]; teachingMode: string; hoursPerWeek: string; timeSlots: string[]
+  motivation: string; hourlyRate: string; status: string; createdAt: string
+}
+type Enquiry = {
+  _id: string; name: string; phone: string; studentClass: string; subject: string
+  city: string; area: string; message: string; status: string; createdAt: string
 }
 
 const LOC_COLORS: Record<string, string> = {
@@ -22,7 +32,7 @@ const CLASSES = ['1','2','3','4','5','6','7','8','9','10','11','12']
 export default function SubDashboard() {
   const router = useRouter()
   const [info, setInfo] = useState<SessionInfo | null>(null)
-  const [tab, setTab] = useState<'teachers' | 'leads'>('leads')
+  const [tab, setTab] = useState<'teachers' | 'leads' | 'applications' | 'enquiries'>('enquiries')
 
   // Teachers state
   const [teachers, setTeachers] = useState<Teacher[]>([])
@@ -41,14 +51,25 @@ export default function SubDashboard() {
   const [lSuccess, setLSuccess] = useState('')
   const [lLoading, setLLoading] = useState(false)
 
+  // Applications state
+  const [applications, setApplications] = useState<Application[]>([])
+  const [expandedApp, setExpandedApp] = useState<string | null>(null)
+
+  // Enquiries state
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([])
+
   useEffect(() => {
     fetch('/api/admin/sub-session').then(r => r.json()).then(d => { if (d.phone) setInfo(d) })
     fetchTeachers()
     fetchLeads()
+    fetchApplications()
+    fetchEnquiries()
   }, [])
 
   const fetchTeachers = () => fetch('/api/subadmin/teachers').then(r => r.json()).then(d => { if (Array.isArray(d)) setTeachers(d) })
   const fetchLeads = () => fetch('/api/subadmin/leads').then(r => r.json()).then(d => { if (Array.isArray(d)) setLeads(d) })
+  const fetchApplications = () => fetch('/api/subadmin/applications').then(r => r.json()).then(d => { if (Array.isArray(d)) setApplications(d) })
+  const fetchEnquiries = () => fetch('/api/subadmin/enquiries').then(r => r.json()).then(d => { if (Array.isArray(d)) setEnquiries(d) })
 
   const handleLogout = async () => {
     await fetch('/api/admin/sub-logout', { method: 'POST' })
@@ -93,6 +114,28 @@ export default function SubDashboard() {
     fetchLeads()
   }
 
+  const handleUpdateAppStatus = async (id: string, status: string) => {
+    await fetch('/api/subadmin/applications', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
+    fetchApplications()
+  }
+
+  const handleDeleteApp = async (id: string) => {
+    if (!confirm('Delete this application?')) return
+    await fetch('/api/subadmin/applications', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+    fetchApplications()
+  }
+
+  const handleUpdateEnquiryStatus = async (id: string, status: string) => {
+    await fetch('/api/subadmin/enquiries', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) })
+    fetchEnquiries()
+  }
+
+  const handleDeleteEnquiry = async (id: string) => {
+    if (!confirm('Delete this enquiry?')) return
+    await fetch('/api/subadmin/enquiries', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+    fetchEnquiries()
+  }
+
   // MongoDB returns _id, map it to id for consistency
   const mappedLeads = leads.map((l: Lead & { _id?: string }) => ({ ...l, id: l._id || l.id }))
 
@@ -116,6 +159,22 @@ export default function SubDashboard() {
             onClick={() => setTab('teachers')}>
             <Users size={18} /> Teachers
           </button>
+          <button className={`${styles.navItem} ${tab === 'applications' ? styles.active : ''}`}
+            style={tab === 'applications' ? { background: color + '18', color } : {}}
+            onClick={() => setTab('applications')}>
+            <ClipboardList size={18} /> Applications
+            {applications.filter(a => a.status === 'pending').length > 0 && (
+              <span className={styles.navBadge}>{applications.filter(a => a.status === 'pending').length}</span>
+            )}
+          </button>
+          <button className={`${styles.navItem} ${tab === 'enquiries' ? styles.active : ''}`}
+            style={tab === 'enquiries' ? { background: color + '18', color } : {}}
+            onClick={() => setTab('enquiries')}>
+            <Bell size={18} /> Enquiries
+            {enquiries.filter(e => e.status === 'new').length > 0 && (
+              <span className={styles.navBadge}>{enquiries.filter(e => e.status === 'new').length}</span>
+            )}
+          </button>
         </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}><LogOut size={18} /> Logout</button>
       </aside>
@@ -123,7 +182,7 @@ export default function SubDashboard() {
       <main className={styles.main}>
         <header className={styles.topbar}>
           <div>
-            <h1 className={styles.pageTitle}>{tab === 'leads' ? 'Student Leads' : 'Teachers'}</h1>
+            <h1 className={styles.pageTitle}>{tab === 'leads' ? 'Student Leads' : tab === 'teachers' ? 'Teachers' : tab === 'applications' ? 'Tutor Applications' : 'Student Enquiries'}</h1>
             <p className={styles.pageSubtitle}>{info ? `${info.name} · ${info.location}` : 'Loading...'}</p>
           </div>
           <div className={styles.topbarRight}>
@@ -146,8 +205,10 @@ export default function SubDashboard() {
                 <p className={styles.bannerLocation} style={{ color }}>{info.location}</p>
               </div>
               <div className={styles.bannerStats}>
+                <div className={styles.bStat}><span style={{ color }}>{enquiries.length}</span><small>Enquiries</small></div>
                 <div className={styles.bStat}><span style={{ color }}>{leads.length}</span><small>Leads</small></div>
                 <div className={styles.bStat}><span style={{ color }}>{teachers.length}</span><small>Teachers</small></div>
+                <div className={styles.bStat}><span style={{ color }}>{applications.filter(a => a.status === 'pending').length}</span><small>Pending</small></div>
               </div>
             </div>
 
@@ -307,6 +368,114 @@ export default function SubDashboard() {
                         <button className={styles.deleteBtn} onClick={() => handleDeleteTeacher(t.phone)}><Trash2 size={14} /></button>
                       </div>
                     ))}
+                  </div>
+                )}
+              </section>
+            )}
+            {/* ── APPLICATIONS TAB ── */}
+            {tab === 'applications' && (
+              <section className={styles.section}>
+                <div className={styles.sectionHeader}>
+                  <h2 className={styles.sectionTitle}>Tutor Applications — {info.location}</h2>
+                  <span className={styles.appCount}>{applications.length} total</span>
+                </div>
+
+                {applications.length === 0 ? (
+                  <div className={styles.empty}><ClipboardList size={36} /><p>No applications yet for {info.location}.</p></div>
+                ) : (
+                  <div className={styles.appList}>
+                    {applications.map(app => (
+                      <div key={app._id} className={styles.appCard} style={{ borderLeftColor: color }}>
+                        <div className={styles.appHeader} onClick={() => setExpandedApp(expandedApp === app._id ? null : app._id)}>
+                          <div className={styles.appAvatar} style={{ background: color + '22', color }}>
+                            {app.fullName.charAt(0).toUpperCase()}
+                          </div>
+                          <div className={styles.appInfo}>
+                            <p className={styles.appName}>{app.fullName}</p>
+                            <p className={styles.appMeta}><Phone size={11} /> {app.phone} &nbsp;·&nbsp; {app.qualification} &nbsp;·&nbsp; {app.experience}</p>
+                            <p className={styles.appSubjects}>{app.subjects.join(', ')}</p>
+                          </div>
+                          <div className={styles.appRight}>
+                            <span className={styles.appDate}>{app.createdAt}</span>
+                            <span className={`${styles.appStatus} ${styles['status_' + app.status]}`}>{app.status}</span>
+                          </div>
+                        </div>
+
+                        {expandedApp === app._id && (
+                          <div className={styles.appDetails}>
+                            <div className={styles.appDetailGrid}>
+                              <div><span>Email</span><p>{app.email}</p></div>
+                              <div><span>Address</span><p>{app.address}</p></div>
+                              <div><span>Field of Study</span><p>{app.fieldOfStudy}</p></div>
+                              <div><span>Preferred Class</span><p>{app.preferredClass}</p></div>
+                              <div><span>Teaching Mode</span><p>{app.teachingMode}</p></div>
+                              <div><span>Hours/Week</span><p>{app.hoursPerWeek}</p></div>
+                              {app.timeSlots.length > 0 && <div><span>Time Slots</span><p>{app.timeSlots.join(', ')}</p></div>}
+                              {app.hourlyRate && <div><span>Expected Rate</span><p>₹{app.hourlyRate}/hr</p></div>}
+                              <div className={styles.fullCol}><span>Motivation</span><p>{app.motivation}</p></div>
+                            </div>
+                            <div className={styles.appActions}>
+                              {['pending','reviewed','approved','rejected'].map(s => (
+                                <button key={s} className={`${styles.statusBtn} ${app.status === s ? styles.statusBtnActive : ''}`}
+                                  style={app.status === s ? { background: color, borderColor: color } : {}}
+                                  onClick={() => handleUpdateAppStatus(app._id, s)}>
+                                  {s.charAt(0).toUpperCase() + s.slice(1)}
+                                </button>
+                              ))}
+                              <button className={styles.deleteBtn} onClick={() => handleDeleteApp(app._id)}><Trash2 size={14} /></button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            )}
+            {/* ── ENQUIRIES TAB ── */}
+            {tab === 'enquiries' && (
+              <section className={styles.section}>
+                <div className={styles.sectionHeader}>
+                  <h2 className={styles.sectionTitle}>Student Enquiries — {info.location}</h2>
+                  <span className={styles.appCount}>{enquiries.length} total · {enquiries.filter(e => e.status === 'new').length} new</span>
+                </div>
+
+                {enquiries.length === 0 ? (
+                  <div className={styles.empty}><Bell size={36} /><p>No student enquiries yet for {info.location}.</p></div>
+                ) : (
+                  <div className={styles.leadsList}>
+                    {enquiries.map(enq => {
+                      const statusColors: Record<string, string> = { new: '#43e97b', contacted: '#f7971e', assigned: '#667eea', closed: '#f5576c' }
+                      const sc = statusColors[enq.status] || color
+                      return (
+                        <div key={enq._id} className={styles.leadCard} style={{ borderLeftColor: sc }}>
+                          <div className={styles.leadAvatar} style={{ background: sc + '22', color: sc }}>
+                            {enq.name.charAt(0).toUpperCase()}
+                          </div>
+                          <div className={styles.leadInfo}>
+                            <p className={styles.leadName}>{enq.name}</p>
+                            <p className={styles.leadMeta}><Phone size={11} /> {enq.phone} &nbsp;·&nbsp; {enq.studentClass} &nbsp;·&nbsp; {enq.subject}</p>
+                            <p className={styles.leadMeta}><MapPin size={11} /> {enq.city}, {enq.area}</p>
+                            {enq.message && <p className={styles.leadNote}>{enq.message}</p>}
+                            <div className={styles.enqActions}>
+                              {['new','contacted','assigned','closed'].map(s => (
+                                <button key={s}
+                                  className={`${styles.statusBtn} ${enq.status === s ? styles.statusBtnActive : ''}`}
+                                  style={enq.status === s ? { background: sc, borderColor: sc, color: '#fff' } : {}}
+                                  onClick={() => handleUpdateEnquiryStatus(enq._id, s)}>
+                                  {s.charAt(0).toUpperCase() + s.slice(1)}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          <div className={styles.leadRight}>
+                            <span className={styles.leadDate}>{enq.createdAt}</span>
+                            <span className={styles.appStatus} style={{ background: sc + '22', color: sc }}>{enq.status}</span>
+                            <button className={styles.deleteBtn} onClick={() => handleDeleteEnquiry(enq._id)}><Trash2 size={14} /></button>
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 )}
               </section>

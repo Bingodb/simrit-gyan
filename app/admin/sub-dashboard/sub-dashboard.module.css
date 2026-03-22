@@ -430,3 +430,188 @@
   .leadCard, .teacherCard { flex-wrap: wrap; }
   .leadRight { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
 }
+
+/* ── Nav Badge ── */
+.navBadge {
+  margin-left: auto;
+  background: #f5576c;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 50px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ── Applications ── */
+.appCount {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.35);
+}
+
+.appList { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.appCard {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 3px solid;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.appHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.appHeader:hover { background: rgba(255,255,255,0.03); }
+
+.appAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.appInfo { flex: 1; min-width: 0; }
+.appName { font-size: 0.95rem; font-weight: 700; color: #fff; }
+.appMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+.appSubjects {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  margin-top: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.appDate { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+.appStatus {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 50px;
+  text-transform: capitalize;
+}
+
+.status_pending  { background: rgba(247,151,30,0.18);  color: #f7971e; }
+.status_reviewed { background: rgba(102,126,234,0.18); color: #667eea; }
+.status_approved { background: rgba(67,233,123,0.18);  color: #43e97b; }
+.status_rejected { background: rgba(245,87,108,0.18);  color: #f5576c; }
+
+/* Expanded details */
+.appDetails {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 1.25rem;
+  background: rgba(255,255,255,0.02);
+}
+
+.appDetailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.fullCol { grid-column: 1 / -1; }
+
+.appDetailGrid div span {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.appDetailGrid div p {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+}
+
+.appActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.statusBtn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.statusBtn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.statusBtnActive { color: #fff !important; }
+
+@media (max-width: 480px) {
+  .appDetailGrid { grid-template-columns: 1fr; }
+  .appHeader { flex-wrap: wrap; }
+  .appRight { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
+}
+
+/* ── Enquiry status actions ── */
+.enqActions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.statusBtn {
+  padding: 0.3rem 0.7rem;
+  border-radius: 7px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.45);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.statusBtn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.statusBtnActive { font-weight: 700; }
+
+.appStatus {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  text-transform: capitalize;
+}

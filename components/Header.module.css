@@ -99,6 +99,15 @@
   background: #c9a84c !important;
 }
 
+.navNeedTutor {
+  color: #43e97b !important;
+  font-weight: 700;
+}
+
+.navNeedTutor::after {
+  background: #43e97b !important;
+}
+
 .menuButton {
   display: none;
   background: none;

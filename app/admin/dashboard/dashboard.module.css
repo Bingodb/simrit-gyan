@@ -473,3 +473,206 @@
   .adminCard { flex-wrap: wrap; }
   .adminMeta { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
 }
+
+/* ── Activities ── */
+.actHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.actTabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actTab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.actTab:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+.actTabActive {
+  background: rgba(102,126,234,0.15);
+  border-color: rgba(102,126,234,0.35);
+  color: #667eea;
+}
+
+.actCount {
+  background: rgba(255,255,255,0.1);
+  border-radius: 50px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.locFilter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255,255,255,0.4);
+}
+
+.locFilter select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px;
+  padding: 0.5rem 0.9rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+}
+
+.locFilter select option { background: #0d1117; }
+
+/* ── Activity List ── */
+.actList { display: flex; flex-direction: column; gap: 0.65rem; }
+
+.actCard {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 3px solid;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  transition: border-color 0.2s;
+}
+
+.actCard:hover { border-color: rgba(255,255,255,0.12); }
+
+.appRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+/* non-expandable cards also use flex */
+.actCard > .actAvatar,
+.actCard > .actInfo,
+.actCard > .actRight {
+  /* direct children layout for non-app cards */
+}
+
+.actCard:not(:has(.appRow)) {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.actAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.actInfo { flex: 1; min-width: 0; }
+.actName { font-size: 0.9rem; font-weight: 700; color: #fff; }
+.actMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.actRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.locPill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+}
+
+.statusPill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  text-transform: capitalize;
+}
+
+.actDate { font-size: 0.72rem; color: rgba(255,255,255,0.28); }
+
+.chevron { color: rgba(255,255,255,0.3); margin-top: 0.1rem; }
+
+/* Expanded application details */
+.appExpanded {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 0.9rem;
+  padding-top: 1rem;
+}
+
+.appGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.fullCol { grid-column: 1 / -1; }
+
+.appGrid div span {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.35);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.appGrid div p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+}
+
+/* ── Loc info ── */
+.locInfo { flex: 1; }
+
+/* ── Empty ── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 2rem;
+  color: rgba(255,255,255,0.2);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .actHeader { flex-direction: column; align-items: flex-start; }
+  .appGrid { grid-template-columns: 1fr; }
+  .actRight { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+}
