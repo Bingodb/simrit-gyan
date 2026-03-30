@@ -87,8 +87,24 @@ export default function Hero() {
               className={styles.cardImage}
             />
           </div>
-          <div className={styles.floatingCard2}></div>
-          <div className={styles.floatingCard3}></div>
+          <div className={styles.floatingCard2}>
+             <Image 
+              src="/images/hero2.png" 
+              alt="Student Learning" 
+              fill
+              style={{ objectFit: 'cover' }}
+              className={styles.cardImage}
+            />
+          </div>
+          <div className={styles.floatingCard3}>
+             <Image 
+              src="/images/hero3.png" 
+              alt="Student Learning" 
+              fill
+              style={{ objectFit: 'cover' }}
+              className={styles.cardImage}
+            />
+          </div>
         </motion.div>
       </div>
 

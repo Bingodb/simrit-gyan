@@ -36,8 +36,6 @@ export default function Stats() {
 
   return (
     <section className={styles.stats} ref={ref}>
-      <div className={styles.bgLine}></div>
-
       <div className={styles.container}>
         <motion.div
           className={styles.header}

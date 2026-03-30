@@ -280,15 +280,19 @@
 @media (max-width: 900px) {
   .container {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
   }
-
   .heading { font-size: 2.4rem; }
+  .left { text-align: center; align-items: center; }
+  .subtext { margin: 0 auto; }
+  .locationTags { justify-content: center; }
 }
 
 @media (max-width: 480px) {
-  .page { padding: 6rem 1.25rem 4rem; }
-  .heading { font-size: 2rem; letter-spacing: -0.5px; }
-  .formCard { padding: 1.75rem 1.25rem; }
+  .page { padding: 6rem 1rem 4rem; }
+  .heading { font-size: 1.9rem; letter-spacing: -0.5px; }
+  .formCard { padding: 1.5rem 1rem; }
   .row { grid-template-columns: 1fr; }
+  .formTitle { font-size: 1.25rem; }
+  .features { display: none; } /* hide on very small to save space */
 }

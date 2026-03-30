@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './teacher-dashboard.module.css'
-import { MapPin, LogOut, Phone, User, BookOpen, Search, Filter } from 'lucide-react'
+import { MapPin, LogOut, Phone, User, BookOpen, Search, Filter, Menu, X } from 'lucide-react'
 
 type SessionInfo = { phone: string; name: string; location: string; subject: string }
 type Lead = {
@@ -32,6 +32,8 @@ export default function TeacherDashboard() {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
 
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   useEffect(() => {
     fetch('/api/teacher/session').then(r => r.json()).then(d => { if (d.phone) setInfo(d) })
     fetch('/api/teacher/leads').then(r => r.json()).then(d => { if (Array.isArray(d)) setLeads(d) })
@@ -53,11 +55,16 @@ export default function TeacherDashboard() {
 
   return (
     <div className={styles.page}>
+      {sidebarOpen && <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />}
+
       {/* Sidebar */}
-      <aside className={styles.sidebar}>
-        <div className={styles.sidebarLogo}>
-          <div className={styles.logoBox} style={{ background: color }}>SG</div>
-          <span>Simrit Gyan</span>
+      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+        <div className={styles.sidebarHeader}>
+          <div className={styles.sidebarLogo}>
+            <div className={styles.logoBox} style={{ background: color }}>SG</div>
+            <span>Simrit Gyan</span>
+          </div>
+          <button className={styles.sidebarClose} onClick={() => setSidebarOpen(false)}><X size={20} /></button>
         </div>
         <nav className={styles.sidebarNav}>
           <div className={`${styles.navItem} ${styles.active}`} style={{ background: color + '18', color }}>
@@ -71,9 +78,12 @@ export default function TeacherDashboard() {
 
       <main className={styles.main}>
         <header className={styles.topbar}>
-          <div>
-            <h1 className={styles.pageTitle}>Student Leads</h1>
-            <p className={styles.pageSubtitle}>{info ? `${info.name} · ${info.location}` : 'Loading...'}</p>
+          <div className={styles.topbarLeft}>
+            <button className={styles.hamburger} onClick={() => setSidebarOpen(true)}><Menu size={22} /></button>
+            <div>
+              <h1 className={styles.pageTitle}>Student Leads</h1>
+              <p className={styles.pageSubtitle}>{info ? `${info.name} · ${info.location}` : 'Loading...'}</p>
+            </div>
           </div>
           <button className={styles.logoutMobile} onClick={handleLogout}><LogOut size={18} /></button>
         </header>

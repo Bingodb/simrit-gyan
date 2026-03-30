@@ -27,6 +27,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'All fields required' }, { status: 400 })
 
   await connectDB()
+
+  // Prevent duplicate — same phone in same location
+  const existing = await Lead.findOne({ parentPhone, location: sub.location })
+  if (existing) return NextResponse.json({ error: 'duplicate' }, { status: 409 })
+
   const lead = await Lead.create({
     studentName, parentPhone, class: studentClass,
     subject, address, note: note || '',

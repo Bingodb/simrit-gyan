@@ -5,6 +5,17 @@ import { Menu, X, GraduationCap } from 'lucide-react'
 import Image from 'next/image'
 import styles from './Header.module.css'
 
+const navLinks = [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: 'Need a Tutor', path: '/need-a-tutor' },
+  { name: 'About', path: '/about' },
+  { name: 'Pricing', path: '/pricing' },
+  { name: 'Gallery', path: '/gallery' },
+  { name: 'Join as Tutor', path: '/join-as-tutor' },
+  { name: 'Contact', path: '/contact' },
+]
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -15,6 +26,14 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isMobileMenuOpen])
+
+  const close = () => setIsMobileMenuOpen(false)
+
   return (
     <motion.header
       className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}
@@ -23,69 +42,49 @@ export default function Header() {
       transition={{ duration: 0.6 }}
     >
       <div className={styles.container}>
-        <motion.a href="/" className={styles.logo} whileHover={{ scale: 1.05 }}>
+        {/* Logo */}
+        <a href="/" className={styles.logo}>
           <div className={styles.logoImage}>
             <Image src="/images/image.png" alt="Simrit Gyan Logo" width={50} height={50} priority />
           </div>
           <span className={styles.logoText}>SIMRIT GYAN</span>
-        </motion.a>
+        </a>
 
+        {/* Nav — plain <a> tags to avoid framer-motion DOM conflicts on mobile */}
         <nav className={`${styles.nav} ${isMobileMenuOpen ? styles.mobileOpen : ''}`}>
-          {[
-            { name: 'Home', path: '/' },
-            { name: 'Services', path: '/services' },
-            { name: 'Need a Tutor', path: '/need-a-tutor' },
-            { name: 'About', path: '/about' },
-            { name: 'Pricing', path: '/pricing' },
-            { name: 'Gallery', path: '/gallery' },
-            { name: 'Join as Tutor', path: '/join-as-tutor' },
-            { name: 'Contact', path: '/contact' },
-          ].map((item, i) => (
-            <motion.a
+          {navLinks.map(item => (
+            <a
               key={item.name}
               href={item.path}
-              className={`${styles.navLink} ${item.name === 'Join as Tutor' ? styles.navHighlight : ''} ${item.name === 'Need a Tutor' ? styles.navNeedTutor : ''}`}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.1 }}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={close}
+              className={`${styles.navLink}
+                ${item.name === 'Join as Tutor' ? styles.navHighlight : ''}
+                ${item.name === 'Need a Tutor' ? styles.navNeedTutor : ''}`}
             >
               {item.name}
-            </motion.a>
+            </a>
           ))}
 
-          {/* Teacher Login — visible inside mobile menu */}
-          <motion.a
-            href="/teacher/login"
-            className={styles.teacherBtnMobile}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
+          {/* Teacher Login inside mobile menu */}
+          <a href="/teacher/login" className={styles.teacherBtnMobile} onClick={close}>
             <GraduationCap size={18} />
             Teacher Login
-          </motion.a>
+          </a>
         </nav>
 
-        {/* Teacher Login button — desktop */}
-        <motion.a
-          href="/teacher/login"
-          className={styles.teacherBtn}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        {/* Teacher Login — desktop only */}
+        <a href="/teacher/login" className={styles.teacherBtn}>
           <GraduationCap size={17} />
           <span>Teacher Login</span>
-        </motion.a>
+        </a>
 
+        {/* Hamburger */}
         <button
           className={styles.menuButton}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={() => setIsMobileMenuOpen(prev => !prev)}
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X /> : <Menu />}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
     </motion.header>
