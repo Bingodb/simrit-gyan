@@ -40,7 +40,7 @@ export default function Contact() {
             </div>
             <div className={styles.infoCard}>
               <h3>📞 Phone</h3>
-              <p>+91 70530 15044</p>
+              <p>+91 987654321</p>
             </div>
             <div className={styles.infoCard}>
               <h3>✉️ Email</h3>
