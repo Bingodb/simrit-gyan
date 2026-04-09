@@ -77,7 +77,7 @@ export default function Footer() {
             <h4>Contact</h4>
             <ul className={styles.contact}>
               <li><Mail size={18} /><span>info@simritgyan.com</span></li>
-              <li><Phone size={18} /><span>+91 98765 43210</span></li>
+              <li><Phone size={18} /><span>+91 70530 15044</span></li>
               <li><MapPin size={18} /><span>Multiple Cities, India</span></li>
             </ul>
           </motion.div>
