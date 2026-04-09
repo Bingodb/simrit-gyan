@@ -4,13 +4,6 @@ import { CheckCircle, MapPin, Award, Users, BookOpen, Star, Linkedin, Mail } fro
 
 const team = [
   {
-    role: 'Director',
-    emoji: '👨‍💼',
-    gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
-    ring: 'rgba(102,126,234,0.5)',
-    bio: 'Visionary leader with 15+ years in education management',
-  },
-  {
     role: 'CEO',
     emoji: '👩‍💼',
     gradient: 'linear-gradient(135deg, #c9a84c, #ffd700)',

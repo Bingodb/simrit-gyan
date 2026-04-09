@@ -50,6 +50,34 @@ export default function JoinAsTutor() {
 
   const set = (field: string, value: string) => setForm(f => ({ ...f, [field]: value }))
 
+  // Compress an image file to a small JPEG data URL (max ~300KB)
+  const compressImage = (file: File): Promise<Blob> =>
+    new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const img = new window.Image()
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          let { width, height } = img
+          const MAX = 900
+          if (width > MAX || height > MAX) {
+            if (width > height) { height = Math.round(height * MAX / width); width = MAX }
+            else { width = Math.round(width * MAX / height); height = MAX }
+          }
+          canvas.width = width; canvas.height = height
+          canvas.getContext('2d')!.drawImage(img, 0, 0, width, height)
+          canvas.toBlob(blob => resolve(blob!), 'image/jpeg', 0.65)
+        }
+        img.src = e.target!.result as string
+      }
+      reader.readAsDataURL(file)
+    })
+
+  const prepareFile = async (file: File): Promise<Blob> => {
+    if (file.type.startsWith('image/')) return compressImage(file)
+    return file
+  }
+
   const toggleSubject = (s: string) =>
     setSelectedSubjects(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s])
 
@@ -67,15 +95,15 @@ export default function JoinAsTutor() {
 
     setError(''); setLoading(true)
 
-    // Use FormData so files are actually sent
+    // Compress images client-side before sending to stay within MongoDB 16MB doc limit
     const fd = new FormData()
     Object.entries(form).forEach(([k, v]) => fd.append(k, v))
     fd.append('subjects', JSON.stringify(selectedSubjects))
     fd.append('timeSlots', JSON.stringify(selectedSlots))
-    Array.from(files.resume!).forEach(f => fd.append('resume', f))
-    Array.from(files.certificates!).forEach(f => fd.append('certificates', f))
-    fd.append('photo', files.photo!)
-    fd.append('idproof', files.idproof!)
+    for (const f of Array.from(files.resume!)) fd.append('resume', await prepareFile(f), f.name)
+    for (const f of Array.from(files.certificates!)) fd.append('certificates', await prepareFile(f), f.name)
+    fd.append('photo', await prepareFile(files.photo!), files.photo!.name)
+    fd.append('idproof', await prepareFile(files.idproof!), files.idproof!.name)
 
     const res = await fetch('/api/tutor-application', { method: 'POST', body: fd })
     setLoading(false)

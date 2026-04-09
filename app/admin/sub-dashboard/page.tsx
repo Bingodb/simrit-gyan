@@ -15,6 +15,7 @@ type Application = {
   qualification: string; fieldOfStudy: string; experience: string; preferredClass: string
   subjects: string[]; teachingMode: string; hoursPerWeek: string; timeSlots: string[]
   motivation: string; hourlyRate: string; status: string; createdAt: string
+  docNames?: { resume: string[]; certificates: string[]; photo: string; idproof: string }
 }
 type Enquiry = {
   _id: string; name: string; phone: string; studentClass: string; subject: string
@@ -58,6 +59,11 @@ export default function SubDashboard() {
   // Applications state
   const [applications, setApplications] = useState<Application[]>([])
   const [expandedApp, setExpandedApp] = useState<string | null>(null)
+  const [appPage, setAppPage] = useState(1)
+  const APP_PER_PAGE = 10
+
+  // Document viewer popup
+  const [docViewer, setDocViewer] = useState<{ url: string; label: string } | null>(null)
 
   // Enquiries state
   const [enquiries, setEnquiries] = useState<Enquiry[]>([])
@@ -458,8 +464,9 @@ export default function SubDashboard() {
                 {applications.length === 0 ? (
                   <div className={styles.empty}><ClipboardList size={36} /><p>No applications yet for {info.location}.</p></div>
                 ) : (
+                  <>
                   <div className={styles.appList}>
-                    {applications.map(app => (
+                    {applications.slice((appPage - 1) * APP_PER_PAGE, appPage * APP_PER_PAGE).map(app => (
                       <div key={app._id} className={styles.appCard} style={{ borderLeftColor: color }}>
                         <div className={styles.appHeader} onClick={() => setExpandedApp(expandedApp === app._id ? null : app._id)}>
                           <div className={styles.appAvatar} style={{ background: color + '22', color }}>
@@ -489,6 +496,38 @@ export default function SubDashboard() {
                               {app.hourlyRate && <div><span>Expected Rate</span><p>₹{app.hourlyRate}/hr</p></div>}
                               <div className={styles.fullCol}><span>Motivation</span><p>{app.motivation}</p></div>
                             </div>
+                            {/* ── Documents ── */}
+                            {app.docNames && (
+                              <div className={styles.docsSection}>
+                                <p className={styles.docsTitle}>Documents</p>
+                                <div className={styles.docsGrid}>
+                                  {app.docNames.photo && (
+                                    <button className={styles.docItem} onClick={() => setDocViewer({ url: app.docNames!.photo, label: 'Profile Photo' })}>
+                                      <img src={app.docNames.photo} alt="Profile Photo" className={styles.docThumb} />
+                                      <span>Profile Photo</span>
+                                    </button>
+                                  )}
+                                  {app.docNames.idproof && (
+                                    <button className={styles.docItem} onClick={() => setDocViewer({ url: app.docNames!.idproof, label: 'ID Proof' })}>
+                                      <img src={app.docNames.idproof} alt="ID Proof" className={styles.docThumb} />
+                                      <span>ID Proof</span>
+                                    </button>
+                                  )}
+                                  {app.docNames.resume?.map((r: string, i: number) => (
+                                    <button key={i} className={styles.docItem} onClick={() => setDocViewer({ url: r, label: `Resume${app.docNames!.resume.length > 1 ? ' ' + (i + 1) : ''}` })}>
+                                      <div className={styles.docFile}>📄</div>
+                                      <span>Resume {app.docNames!.resume.length > 1 ? i + 1 : ''}</span>
+                                    </button>
+                                  ))}
+                                  {app.docNames.certificates?.map((c: string, i: number) => (
+                                    <button key={i} className={styles.docItem} onClick={() => setDocViewer({ url: c, label: `Certificate${app.docNames!.certificates.length > 1 ? ' ' + (i + 1) : ''}` })}>
+                                      <div className={styles.docFile}>📜</div>
+                                      <span>Certificate {app.docNames!.certificates.length > 1 ? i + 1 : ''}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                             <div className={styles.appActions}>
                               {['pending','reviewed','approved','rejected'].map(s => (
                                 <button key={s} className={`${styles.statusBtn} ${app.status === s ? styles.statusBtnActive : ''}`}
@@ -504,6 +543,19 @@ export default function SubDashboard() {
                       </div>
                     ))}
                   </div>
+                  {/* Pagination */}
+                  {applications.length > APP_PER_PAGE && (
+                    <div className={styles.pagination}>
+                      <button className={styles.pageBtn} disabled={appPage === 1} onClick={() => setAppPage(p => p - 1)}>← Prev</button>
+                      {Array.from({ length: Math.ceil(applications.length / APP_PER_PAGE) }, (_, i) => (
+                        <button key={i} className={`${styles.pageBtn} ${appPage === i + 1 ? styles.pageBtnActive : ''}`}
+                          style={appPage === i + 1 ? { background: color, borderColor: color } : {}}
+                          onClick={() => setAppPage(i + 1)}>{i + 1}</button>
+                      ))}
+                      <button className={styles.pageBtn} disabled={appPage === Math.ceil(applications.length / APP_PER_PAGE)} onClick={() => setAppPage(p => p + 1)}>Next →</button>
+                    </div>
+                  )}
+                  </>
                 )}
               </section>
             )}
@@ -619,6 +671,28 @@ export default function SubDashboard() {
           </>
         )}
       </main>
+
+      {/* ── Document Viewer Popup ── */}
+      {docViewer && (
+        <div className={styles.docOverlay} onClick={() => setDocViewer(null)}>
+          <div className={styles.docModal} onClick={e => e.stopPropagation()}>
+            <div className={styles.docModalHeader}>
+              <span className={styles.docModalTitle}>{docViewer.label}</span>
+              <div className={styles.docModalActions}>
+                <a href={docViewer.url} download={docViewer.label} className={styles.docDownloadBtn}>⬇ Download</a>
+                <button className={styles.docCloseBtn} onClick={() => setDocViewer(null)}><X size={18} /></button>
+              </div>
+            </div>
+            <div className={styles.docModalBody}>
+              {docViewer.url.startsWith('data:image') ? (
+                <img src={docViewer.url} alt={docViewer.label} className={styles.docModalImg} />
+              ) : (
+                <iframe src={docViewer.url} className={styles.docModalFrame} title={docViewer.label} />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

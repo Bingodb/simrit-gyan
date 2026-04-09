@@ -57,12 +57,12 @@ const TutorApplicationSchema = new Schema({
   // Extra
   motivation:    { type: String, required: true },
   hourlyRate:    { type: String, default: '' },
-  // Uploaded document filenames
+  // Uploaded documents as base64 data URLs
   docNames: {
-    resume:       { type: [String], default: [] },
-    certificates: { type: [String], default: [] },
-    photo:        { type: String, default: '' },
-    idproof:      { type: String, default: '' },
+    resume:       { type: [String], default: [] },  // base64 data URLs
+    certificates: { type: [String], default: [] },  // base64 data URLs
+    photo:        { type: String, default: '' },     // base64 data URL
+    idproof:      { type: String, default: '' },     // base64 data URL
   },
   // Status
   status:        { type: String, default: 'pending', enum: ['pending', 'reviewed', 'approved', 'rejected'] },

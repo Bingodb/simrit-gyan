@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 100;
   padding: 0.9rem 1.5rem;
   transition: all 0.3s ease;
 }
@@ -21,8 +21,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  position: relative;
-  z-index: 1001;
 }
 
 .logo {
@@ -31,7 +29,6 @@
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
-  z-index: 1001;
   flex-shrink: 0;
 }
 
@@ -98,16 +95,10 @@
 .navLink:hover { color: #fff; }
 .navLink:hover::after { width: 100%; }
 
-.navHighlight {
-  color: #c9a84c !important;
-  font-weight: 700;
-}
+.navHighlight { color: #c9a84c !important; font-weight: 700; }
 .navHighlight::after { background: #c9a84c !important; }
 
-.navNeedTutor {
-  color: #43e97b !important;
-  font-weight: 700;
-}
+.navNeedTutor { color: #43e97b !important; font-weight: 700; }
 .navNeedTutor::after { background: #43e97b !important; }
 
 /* ── Teacher Button (desktop) ── */
@@ -124,13 +115,9 @@
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
-  z-index: 1001;
   transition: opacity 0.2s;
 }
 .teacherBtn:hover { opacity: 0.88; }
-
-/* Hidden on desktop, shown in mobile menu */
-.teacherBtnMobile { display: none; }
 
 /* ── Hamburger ── */
 .menuButton {
@@ -140,8 +127,84 @@
   color: white;
   cursor: pointer;
   padding: 0.4rem;
-  z-index: 1001;
   flex-shrink: 0;
+}
+
+/* ── Mobile Drawer ── */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0a0a0a;
+  z-index: 200;
+  flex-direction: column;
+  overflow-y: auto;
+  display: flex;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.drawerClose {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  flex: 1;
+}
+
+.drawerLink {
+  display: block;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.15s, color 0.15s;
+}
+.drawerLink:hover { background: rgba(255,255,255,0.04); color: #fff; }
+
+.teacherBtnMobile {
+  display: none;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.25rem 1.5rem 0;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  justify-content: center;
+}
+
+/* Backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 199;
 }
 
 /* ── Tablet ── */
@@ -160,63 +223,15 @@
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .header { padding: 0.75rem 1.25rem; }
-
-  .menuButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+  .nav { display: none; }
   .teacherBtn { display: none; }
-
-  .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #000;
-    padding: 2rem 1.5rem;
-    gap: 1.75rem;
-    transform: translateX(-100%);
-    transition: transform 0.35s ease;
-    z-index: 999;
-    flex: unset;
-    overflow-y: auto;
-  }
-
-  .nav.mobileOpen { transform: translateX(0); }
-
-  .navLink {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #fff;
-  }
-
-  .teacherBtnMobile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    padding: 0.85rem 2rem;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 700;
-    border-radius: 50px;
-    text-decoration: none;
-    margin-top: 0.5rem;
-  }
+  .menuButton { display: flex; align-items: center; justify-content: center; }
+  .teacherBtnMobile { display: flex; }
 }
 
 @media (max-width: 480px) {
   .header { padding: 0.7rem 1rem; }
   .logoText { font-size: 0.9rem; letter-spacing: 0.5px; }
   .logoImage { width: 34px; height: 34px; }
-  .navLink { font-size: 1.2rem; }
+  .drawerLink { font-size: 1rem; padding: 0.9rem 1.25rem; }
 }

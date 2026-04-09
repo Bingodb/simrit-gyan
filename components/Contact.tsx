@@ -35,8 +35,8 @@ export default function Contact() {
         <div className={styles.content}>
           <div className={styles.info}>
             <div className={styles.infoCard}>
-              <h3>📍 Service Areas</h3>
-              <p>Multiple Cities Across India</p>
+              <h3>📍 Head Office</h3>
+              <p>D-9, Nanhey Park, Uttam Nagar<br />New Delhi – 110059</p>
             </div>
             <div className={styles.infoCard}>
               <h3>📞 Phone</h3>
