@@ -164,42 +164,6 @@ export default function SubDashboard() {
     }
   }
 
-  const handleUploadGallery = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setGError(''); setGSuccess(''); setGUploading(true)
-    const reader = new FileReader()
-    reader.onload = async () => {
-      const url = reader.result as string
-      const res = await fetch('/api/subadmin/gallery', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, caption: gCaption, size: 1 }),
-      })
-      setGUploading(false)
-      if (res.ok) { setGSuccess('Image uploaded!'); setGCaption(''); fetchGallery() }
-      else { const d = await res.json(); setGError(d.error || 'Upload failed') }
-    }
-    reader.readAsDataURL(file)
-    e.target.value = ''
-  }
-
-  const handleGallerySize = async (id: string, size: number) => {
-    await fetch('/api/subadmin/gallery', {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, size }),
-    })
-    fetchGallery()
-  }
-
-  const handleDeleteGallery = async (id: string) => {
-    if (!confirm('Delete this image?')) return
-    await fetch('/api/subadmin/gallery', {
-      method: 'DELETE', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    })
-    fetchGallery()
-  }
-
   // MongoDB returns _id, map it to id for consistency
   const mappedLeads = leads.map((l: Lead & { _id?: string }) => ({ ...l, id: l._id || l.id }))
   const leadPhones = new Set(leads.map(l => l.parentPhone))
@@ -594,61 +558,6 @@ export default function SubDashboard() {
                         </div>
                       )
                     })}
-                  </div>
-                )}
-              </section>
-            )}
-            {/* ── GALLERY TAB ── */}
-            {tab === 'gallery' && (
-              <section className={styles.section}>
-                <div className={styles.sectionHeader}>
-                  <h2 className={styles.sectionTitle}>Gallery — {info.location}</h2>
-                  <span className={styles.appCount}>{galleryImages.length} images</span>
-                </div>
-
-                {/* Upload area */}
-                <div className={styles.galleryUploadBox} style={{ borderColor: color + '44' }}>
-                  <div className={styles.formField} style={{ marginBottom: '0.75rem' }}>
-                    <label>Caption (optional)</label>
-                    <input type="text" placeholder="e.g. Student achievement, event photo..."
-                      value={gCaption} onChange={e => setGCaption(e.target.value)} />
-                  </div>
-                  <label className={styles.uploadLabel} style={{ background: color }}>
-                    <Upload size={15} />
-                    {gUploading ? 'Uploading...' : 'Choose & Upload Image'}
-                    <input type="file" accept="image/*" onChange={handleUploadGallery} disabled={gUploading} style={{ display: 'none' }} />
-                  </label>
-                  {gError && <p className={styles.formError} style={{ marginTop: '0.5rem' }}>{gError}</p>}
-                  {gSuccess && <p className={styles.formSuccess} style={{ marginTop: '0.5rem' }}>{gSuccess}</p>}
-                </div>
-
-                {galleryImages.length === 0 ? (
-                  <div className={styles.empty}><ImageIcon size={36} /><p>No images yet. Upload the first one.</p></div>
-                ) : (
-                  <div className={styles.galleryGrid}>
-                    {galleryImages.map(img => (
-                      <div key={img._id} className={styles.galleryCard}
-                        style={{ gridColumn: img.size === 2 ? 'span 2' : 'span 1', gridRow: img.size === 2 ? 'span 2' : 'span 1' }}>
-                        <img src={img.url} alt={img.caption || 'Gallery'} className={styles.galleryImg} />
-                        <div className={styles.galleryCardOverlay}>
-                          {img.caption && <p className={styles.galleryCaption}>{img.caption}</p>}
-                          <div className={styles.galleryActions}>
-                            <button title="Make smaller" className={styles.galBtn}
-                              onClick={() => handleGallerySize(img._id, Math.max(0.5, img.size - 0.5))}
-                              disabled={img.size <= 0.5}>
-                              <ZoomOut size={14} />
-                            </button>
-                            <span className={styles.galSizeLabel}>{img.size}x</span>
-                            <button title="Make larger" className={styles.galBtn}
-                              onClick={() => handleGallerySize(img._id, Math.min(2, img.size + 0.5))}
-                              disabled={img.size >= 2}>
-                              <ZoomIn size={14} />
-                            </button>
-                            <button className={styles.deleteBtn} onClick={() => handleDeleteGallery(img._id)}><Trash2 size={14} /></button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 )}
               </section>
