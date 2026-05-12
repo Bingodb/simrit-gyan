@@ -6,54 +6,54 @@ import styles from './Services.module.css'
 const services = [
   {
     icon: Calculator,
-    title: 'Mathematics',
-    desc: 'Expert tutors for all levels from basic arithmetic to advanced calculus',
-    tag: 'Most Popular',
+    title: 'Primary Home Tuition',
+    desc: 'Build strong foundations in Maths, English, EVS & Hindi with patient, caring tutors who make learning fun for young minds.',
+    tag: 'Class 1-5',
     gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
     glow: 'rgba(102,126,234,0.25)',
     symbol: '∑'
   },
   {
     icon: FlaskConical,
-    title: 'Science',
-    desc: 'Physics, Chemistry, Biology — comprehensive coverage with experiments',
-    tag: 'Lab Ready',
+    title: 'Secondary Home Tuition',
+    desc: 'Strengthen core subjects and prepare for board exams with experienced tutors who focus on concept clarity and exam techniques.',
+    tag: 'Class 6-10',
     gradient: 'linear-gradient(135deg, #f093fb, #f5576c)',
     glow: 'rgba(240,147,251,0.25)',
     symbol: '⚗'
   },
   {
     icon: BookOpen,
-    title: 'Languages',
-    desc: 'English, Hindi and regional language tutoring for fluency and grammar',
-    tag: 'Communication',
+    title: 'Senior Secondary Tuition',
+    desc: 'Specialized coaching for PCM/PCB/Commerce streams with focus on board exams and competitive entrance preparation.',
+    tag: 'Class 11-12',
     gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
     glow: 'rgba(79,172,254,0.25)',
     symbol: 'Aa'
   },
   {
     icon: Trophy,
-    title: 'Competitive Exams',
-    desc: 'JEE, NEET, Board exam preparation with proven strategies',
-    tag: 'High Demand',
+    title: 'NEET Preparation',
+    desc: 'Dedicated NEET coaching at home with medical-qualified tutors. Physics, Chemistry & Biology covered in depth.',
+    tag: 'Competitive',
     gradient: 'linear-gradient(135deg, #f7971e, #ffd200)',
     glow: 'rgba(247,151,30,0.25)',
     symbol: '🏆'
   },
   {
     icon: Monitor,
-    title: 'Computer Science',
-    desc: 'Programming, IT subjects and digital literacy for modern students',
-    tag: 'Tech Skills',
+    title: 'JEE Preparation',
+    desc: 'IIT/NIT-qualified tutors for JEE Main & Advanced. Master Physics, Chemistry & Mathematics with proven strategies.',
+    tag: 'Competitive',
     gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
     glow: 'rgba(67,233,123,0.25)',
     symbol: '</>'
   },
   {
     icon: TrendingUp,
-    title: 'All Subjects',
-    desc: 'Complete academic support for all grades from Class 1 to 12',
-    tag: 'Full Package',
+    title: 'Language & Hobby Classes',
+    desc: 'Spoken English, Hindi, Sanskrit, French, German & more. Also painting, music, and coding classes at home.',
+    tag: 'Special',
     gradient: 'linear-gradient(135deg, #fa709a, #fee140)',
     glow: 'rgba(250,112,154,0.25)',
     symbol: '★'
@@ -93,12 +93,12 @@ export default function Services() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            📚 What We Teach
+            Our Services
           </motion.span>
           <h2 className={styles.title}>
-            Our <span className={styles.highlight}>Subjects</span>
+            Tuition <span className={styles.highlight}>Services</span>
           </h2>
-          <p className={styles.subtitle}>Comprehensive tutoring for all academic needs across every grade</p>
+          <p className={styles.subtitle}>Comprehensive home tuition solutions for every academic need — from primary school to competitive exam preparation.</p>
         </motion.div>
 
         <div className={styles.grid}>

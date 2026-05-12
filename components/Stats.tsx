@@ -5,10 +5,10 @@ import { Users, TrendingUp, GraduationCap, MapPin } from 'lucide-react'
 import styles from './Stats.module.css'
 
 const stats = [
-  { value: 5000, suffix: '+', label: 'Students Taught', icon: Users, gradient: 'linear-gradient(135deg, #667eea, #764ba2)', glow: 'rgba(102,126,234,0.3)' },
-  { value: 95, suffix: '%', label: 'Success Rate', icon: TrendingUp, gradient: 'linear-gradient(135deg, #f093fb, #f5576c)', glow: 'rgba(240,147,251,0.3)' },
-  { value: 200, suffix: '+', label: 'Expert Tutors', icon: GraduationCap, gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)', glow: 'rgba(79,172,254,0.3)' },
-  { value: 10, suffix: '+', label: 'Cities Covered', icon: MapPin, gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', glow: 'rgba(67,233,123,0.3)' }
+  { value: 1000, suffix: '+', label: 'Students', icon: Users, gradient: 'linear-gradient(135deg, #667eea, #764ba2)', glow: 'rgba(102,126,234,0.3)' },
+  { value: 500, suffix: '+', label: 'Verified Tutors', icon: GraduationCap, gradient: 'linear-gradient(135deg, #f093fb, #f5576c)', glow: 'rgba(240,147,251,0.3)' },
+  { value: 98, suffix: '%', label: 'Satisfaction', icon: TrendingUp, gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)', glow: 'rgba(79,172,254,0.3)' },
+  { value: 50, suffix: '+', label: 'Cities Covered', icon: MapPin, gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', glow: 'rgba(67,233,123,0.3)' }
 ]
 
 function Counter({ end, suffix, inView }: { end: number; suffix: string; inView: boolean }) {

@@ -214,10 +214,11 @@
 
 /* ── Location Groups ── */
 .locationGroup { margin-bottom: 1.75rem; }
-.groupHeader { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; padding-bottom: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.groupHeader { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; padding-bottom: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; }
 .groupDot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .groupTitle { font-size: 0.95rem; font-weight: 700; color: #fff; }
 .groupCount { font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem; background: rgba(255,255,255,0.07); border-radius: 50px; color: rgba(255,255,255,0.5); }
+.orphanedBadge { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.6rem; background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.3); border-radius: 50px; color: #ffc107; margin-left: auto; }
 .emptyMsg { font-size: 0.85rem; color: rgba(255,255,255,0.3); padding: 0.75rem 0; font-style: italic; }
 .adminCards { display: flex; flex-direction: column; gap: 0.65rem; }
 .adminCard { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-left: 3px solid; border-radius: 12px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
@@ -228,6 +229,8 @@
 .adminDate { font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 0.1rem; }
 .adminMeta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; flex-shrink: 0; }
 .adminLoc { font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 50px; }
+.editBtn { background: rgba(102,126,234,0.1); border: 1px solid rgba(102,126,234,0.2); color: #667eea; border-radius: 8px; padding: 0.4rem; cursor: pointer; display: flex; align-items: center; transition: all 0.2s; }
+.editBtn:hover { background: rgba(102,126,234,0.2); }
 .deleteBtn { background: rgba(245,87,108,0.1); border: 1px solid rgba(245,87,108,0.2); color: #f5576c; border-radius: 8px; padding: 0.4rem; cursor: pointer; display: flex; align-items: center; transition: all 0.2s; }
 .deleteBtn:hover { background: rgba(245,87,108,0.2); }
 
@@ -302,4 +305,220 @@
   .adminMeta { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
   .actTab { padding: 0.4rem 0.65rem; font-size: 0.75rem; }
   .appRow { flex-wrap: wrap; }
+}
+
+/* ── Edit Modal ── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 1rem;
+}
+
+.modal {
+  background: #0d1117;
+  border: 1px solid rgba(102,126,234,0.3);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.modalHeader h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.modalClose {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  border-radius: 8px;
+  padding: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.modalClose:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.editForm {
+  padding: 1.75rem;
+}
+
+.fieldHint {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.25rem;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .adminMeta { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; gap: 0.5rem; }
+  .adminLoc { order: -1; }
+}
+
+/* ── Locations Management ── */
+.colorPicker {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.colorPicker input[type="color"] {
+  width: 60px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.colorPicker input[type="text"] {
+  flex: 1;
+}
+
+.locationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.locationCard {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 4px solid;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.locCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.locColorBox {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.locCardInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.locCardName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.locCardMeta {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 0.15rem;
+}
+
+.locCardDate {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+}
+
+.locCardActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.locStatusBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+}
+
+.locStatusBadge.active {
+  background: rgba(67,233,123,0.15);
+  color: #43e97b;
+}
+
+.locStatusBadge.inactive {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.4);
+}
+
+@media (max-width: 768px) {
+  .locationCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .locCardLeft {
+    width: 100%;
+  }
+  
+  .locCardActions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

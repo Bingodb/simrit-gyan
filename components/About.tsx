@@ -4,36 +4,36 @@ import { CheckCircle, MapPin, Award, Users, BookOpen, Star, Linkedin, Mail } fro
 
 const team = [
   {
-    role: 'CEO',
-    emoji: '👩‍💼',
+    role: 'Our Mission',
+    emoji: '🎯',
     gradient: 'linear-gradient(135deg, #c9a84c, #ffd700)',
     ring: 'rgba(201,168,76,0.5)',
-    bio: 'Driving excellence in home education across India',
+    bio: 'To provide personalized, quality education to every student through verified home tutors, making learning effective and accessible.',
   },
   {
-    role: 'Managing Director',
-    emoji: '👨‍🎓',
+    role: 'Our Vision',
+    emoji: '👁️',
     gradient: 'linear-gradient(135deg, #f093fb, #f5576c)',
     ring: 'rgba(240,147,251,0.5)',
-    bio: 'Operations expert ensuring quality at every touchpoint',
+    bio: 'To become India\'s most trusted home tuition platform where every student discovers the joy of learning and achieves academic excellence.',
   },
   {
-    role: 'Academic Head',
-    emoji: '👩‍🏫',
+    role: 'Our Values',
+    emoji: '⭐',
     gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
     ring: 'rgba(67,233,123,0.5)',
-    bio: 'Curriculum specialist with deep academic expertise',
+    bio: 'Integrity, student-first approach, continuous improvement, and commitment to results drive everything we do at Simrit Gyan.',
   },
 ]
 import styles from './About.module.css'
 
 const highlights = [
-  'Experienced & Verified Tutors',
-  'Personalized Learning Plans',
-  'Flexible Scheduling',
-  'Affordable Pricing',
-  'Regular Progress Reports',
-  'All Boards Covered (CBSE, ICSE, State)'
+  'Verified Tutors - Background verified, ID checked, and qualification confirmed',
+  'Personalized Learning - One-on-one attention tailored to each student',
+  'Free Replacement - Not satisfied? Get a free tutor replacement',
+  'Free Demo Class - Try before you commit',
+  'Flexible Timings - Choose class timings that suit your schedule',
+  'Progress Reports - Regular feedback & progress tracking shared with parents'
 ]
 
 const locations = [
@@ -48,10 +48,10 @@ const locations = [
 ]
 
 const milestones = [
-  { icon: Users, value: '5000+', label: 'Students' },
-  { icon: Award, value: '200+', label: 'Tutors' },
-  { icon: BookOpen, value: '10+', label: 'Cities' },
-  { icon: Star, value: '95%', label: 'Success' },
+  { icon: Users, value: '1000+', label: 'Happy Students' },
+  { icon: Award, value: '500+', label: 'Expert Tutors' },
+  { icon: BookOpen, value: '50+', label: 'Cities Covered' },
+  { icon: Star, value: '5+', label: 'Years Experience' },
 ]
 
 export default function About() {
@@ -68,18 +68,6 @@ export default function About() {
 
       <div className={styles.container}>
 
-        {/* ── Hero heading ── */}
-        <motion.div
-          className={styles.header}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <span className={styles.badge}>🎓 Who We Are</span>
-          <h1 className={styles.title}>About <span className={styles.gold}>Simrit Gyan</span> Pvt Ltd</h1>
-          <p className={styles.tagline}>Bridging the gap between students and excellence — one home at a time</p>
-        </motion.div>
-
         {/* ── Story + highlights ── */}
         <div className={styles.storyGrid}>
           <motion.div
@@ -90,8 +78,9 @@ export default function About() {
             transition={{ duration: 0.7 }}
           >
             <h2 className={styles.storyTitle}>Our <span className={styles.gold}>Story</span></h2>
-            <p>Simrit Gyan Pvt Ltd is a leading home tuition company dedicated to providing quality education at the comfort of your home. We understand that every student is unique and requires personalized attention to excel academically.</p>
-            <p>Our team of experienced and qualified tutors are passionate about teaching and committed to helping students achieve their full potential. We serve students across multiple cities in India, offering flexible scheduling and customized lesson plans tailored to each student's learning style and pace.</p>
+            <p>Simrit Gyan was founded with a simple mission — to make quality education accessible to every student through personalized home tuition. We believe every child learns differently, and a one-size-fits-all classroom approach doesn't work for everyone.</p>
+            <p>Our name comes from "Simrit" (consciousness/memory) and "Gyan" (knowledge), reflecting our belief that true learning happens when knowledge is internalized with understanding, not just memorization.</p>
+            <p>We carefully select, verify, and train tutors who don't just teach subjects — they inspire students to love learning. With regular progress tracking and parent involvement, we ensure measurable results.</p>
 
             <div className={styles.highlights}>
               {highlights.map((h, i) => (
@@ -138,7 +127,7 @@ export default function About() {
 
             <div className={styles.missionBox}>
               <h4>Our Mission</h4>
-              <p>"To make quality education accessible to every student at their doorstep, nurturing academic excellence and building confident learners."</p>
+              <p>To provide personalized, quality education to every student through verified home tutors, making learning effective and accessible.</p>
             </div>
           </motion.div>
         </div>
@@ -196,9 +185,9 @@ export default function About() {
           viewport={{ once: true }}
         >
           <div className={styles.teamHeader}>
-            <span className={styles.badge}>👥 Leadership</span>
-            <h2 className={styles.teamTitle}>Meet Our <span className={styles.gold}>Team</span></h2>
-            <p className={styles.teamSubtitle}>The passionate minds behind Simrit Gyan's success</p>
+            <span className={styles.badge}>Our Core Values</span>
+            <h2 className={styles.teamTitle}>What Drives <span className={styles.gold}>Us</span></h2>
+            <p className={styles.teamSubtitle}>The principles that guide everything we do at Simrit Gyan</p>
           </div>
 
           <div className={styles.teamGrid}>

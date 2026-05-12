@@ -1,0 +1,85 @@
+.boards {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.boardList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.boardItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.boardItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.check {
+  color: #43e97b;
+}
+
+@media (max-width: 768px) {
+  .boards {
+    padding: 40px 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  .boardList {
+    gap: 15px;
+  }
+
+  .boardItem {
+    padding: 12px 20px;
+  }
+
+  .name {
+    font-size: 1rem;
+  }
+}

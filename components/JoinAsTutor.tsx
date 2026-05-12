@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import styles from './JoinAsTutor.module.css'
 
@@ -15,8 +15,6 @@ const TIME_SLOTS = [
   'Evening (6 PM - 10 PM)', 'Weekends Only'
 ]
 
-const LOCATIONS = ['Hauz Khas', 'Gurgaon', 'Connaught Place', 'Uttam Nagar']
-
 const INIT = {
   fullName: '', email: '', phone: '', address: '', location: '',
   qualification: '', fieldOfStudy: '',
@@ -26,6 +24,7 @@ const INIT = {
 }
 
 export default function JoinAsTutor() {
+  const [locations, setLocations] = useState<string[]>([])
   const [form, setForm] = useState(INIT)
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
   const [selectedSlots, setSelectedSlots] = useState<string[]>([])
@@ -33,6 +32,18 @@ export default function JoinAsTutor() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+
+  // Fetch locations
+  useEffect(() => {
+    fetch('/api/public/locations')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setLocations(data.filter((loc: any) => loc.active).map((loc: any) => loc.name))
+        }
+      })
+      .catch(() => setLocations(['Hauz Khas', 'Gurgaon', 'Connaught Place', 'Uttam Nagar'])) // Fallback
+  }, [])
 
   // File state — track selected files so names display correctly
   const [files, setFiles] = useState<{
@@ -121,13 +132,30 @@ export default function JoinAsTutor() {
 
   if (success) {
     return (
-      <section className={styles.section}>
+      <section className={styles.section} id="join-form">
         <div className={styles.container}>
           <motion.div className={styles.successBox} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
             <div className={styles.successIcon}>✓</div>
             <h2>Application Submitted!</h2>
             <p>Thank you for applying to Simrit Gyan. Our team will review your application and get back to you within 24–48 hours.</p>
-            <button className={styles.submitBtn} onClick={() => setSuccess(false)}>Submit Another</button>
+            
+            <div className={styles.whatsappSection}>
+              <h3>📢 Stay Updated!</h3>
+              <p>Follow our WhatsApp channel for latest updates, teaching opportunities, and important announcements.</p>
+              <motion.a
+                href="https://whatsapp.com/channel/0029Vb7hIslISTkJdeVxJx3f"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.whatsappBtn}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className={styles.whatsappIcon}>💬</span>
+                Join WhatsApp Channel
+              </motion.a>
+            </div>
+
+            <button className={styles.submitBtn} onClick={() => setSuccess(false)}>Submit Another Application</button>
           </motion.div>
         </div>
       </section>
@@ -135,7 +163,7 @@ export default function JoinAsTutor() {
   }
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="join-form">
       <div className={styles.container}>
         <motion.div className={styles.hero} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className={styles.heroTitle}>Ready to Join Our Team?</h1>
@@ -170,7 +198,7 @@ export default function JoinAsTutor() {
                 <label>Preferred Location *</label>
                 <select value={form.location} onChange={e => set('location', e.target.value)} required>
                   <option value="">Select your area</option>
-                  {LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
+                  {locations.map(l => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
             </div>

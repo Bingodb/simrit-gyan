@@ -5,44 +5,44 @@ import styles from './Features.module.css'
 
 const features = [
   {
-    icon: Zap,
-    title: 'Quick Response',
-    desc: 'Fast tutor matching within 24 hours of your request',
+    icon: Shield,
+    title: 'Verified Tutors',
+    desc: 'Background verified, ID checked, and qualification confirmed tutors only.',
     gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
     glow: 'rgba(102, 126, 234, 0.4)'
   },
   {
-    icon: Shield,
-    title: 'Verified Tutors',
-    desc: 'Background-checked and highly qualified educators',
+    icon: Sparkles,
+    title: 'Personalized Learning',
+    desc: 'One-on-one attention tailored to each student\'s learning speed and style.',
     gradient: 'linear-gradient(135deg, #f093fb, #f5576c)',
     glow: 'rgba(240, 147, 251, 0.4)'
   },
   {
-    icon: Sparkles,
-    title: 'Personalized Learning',
-    desc: 'Customized teaching methods tailored for each student',
+    icon: Rocket,
+    title: 'Free Replacement',
+    desc: 'Not satisfied? Get a free tutor replacement — no questions asked.',
     gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
     glow: 'rgba(79, 172, 254, 0.4)'
   },
   {
-    icon: Rocket,
-    title: 'Academic Growth',
-    desc: 'Proven track record of outstanding student success',
+    icon: Zap,
+    title: 'Free Demo Class',
+    desc: 'Try before you commit. Experience teaching quality with a free trial.',
     gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
     glow: 'rgba(67, 233, 123, 0.4)'
   },
   {
     icon: Globe,
-    title: 'Multi-City Coverage',
-    desc: 'Available across all major cities and areas',
+    title: 'Flexible Timings',
+    desc: 'Choose class timings that suit your schedule — morning, evening or weekend.',
     gradient: 'linear-gradient(135deg, #fa709a, #fee140)',
     glow: 'rgba(250, 112, 154, 0.4)'
   },
   {
     icon: Lock,
-    title: 'Safe & Secure',
-    desc: 'Fully trusted and safe home tuition environment',
+    title: 'Progress Reports',
+    desc: 'Regular feedback & progress tracking shared with parents monthly.',
     gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)',
     glow: 'rgba(161, 140, 209, 0.4)'
   }
@@ -68,10 +68,10 @@ export default function Features() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            ✦ Our Advantages
+            Why Simrit Gyan
           </motion.span>
-          <h2 className={styles.title}>Why Choose <span className={styles.highlight}>Simrit Gyan?</span></h2>
-          <p className={styles.subtitle}>Everything your child needs to excel academically</p>
+          <h2 className={styles.title}>Why Parents <span className={styles.highlight}>Trust Us</span></h2>
+          <p className={styles.subtitle}>Get a verified home tutor at your doorstep with complete peace of mind</p>
         </motion.div>
 
         <div className={styles.grid}>

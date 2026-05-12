@@ -34,6 +34,35 @@ export async function POST(req: Request) {
   return NextResponse.json({ ok: true, sub })
 }
 
+export async function PUT(req: Request) {
+  if (!await isAdmin()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { oldPhone, newPhone, password, name, location } = await req.json()
+
+  if (!oldPhone) return NextResponse.json({ error: 'Old phone required' }, { status: 400 })
+  
+  await connectDB()
+  const subAdmin = await SubAdmin.findOne({ phone: oldPhone })
+  if (!subAdmin) return NextResponse.json({ error: 'Sub admin not found' }, { status: 404 })
+
+  // Update fields
+  if (newPhone && newPhone !== oldPhone) {
+    if (!/^\d{10}$/.test(newPhone))
+      return NextResponse.json({ error: 'Phone must be 10 digits' }, { status: 400 })
+    
+    const exists = await SubAdmin.findOne({ phone: newPhone })
+    if (exists) return NextResponse.json({ error: 'New phone number already exists' }, { status: 409 })
+    
+    subAdmin.phone = newPhone
+  }
+  
+  if (password) subAdmin.password = password
+  if (name) subAdmin.name = name
+  if (location) subAdmin.location = location
+
+  await subAdmin.save()
+  return NextResponse.json({ ok: true, subAdmin })
+}
+
 export async function DELETE(req: Request) {
   if (!await isAdmin()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { phone } = await req.json()

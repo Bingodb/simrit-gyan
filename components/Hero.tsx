@@ -24,7 +24,7 @@ export default function Hero() {
             className={styles.badge}
           >
             <Sparkles size={16} />
-            <span>Premium Home Tuition Services</span>
+            <span>Trusted by 1000+ Parents</span>
           </motion.div>
 
           <motion.h1
@@ -33,8 +33,8 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className={styles.title}
           >
-            Excellence in
-            <span className={styles.gradientText}> Home Education</span>
+            Best Home
+            <span className={styles.gradientText}> Tuition</span> at Your Doorstep
           </motion.h1>
 
           <motion.p
@@ -43,7 +43,7 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className={styles.subtitle}
           >
-            Professional home tutors across multiple cities, delivering personalized education that transforms students' academic journey
+            Simrit Gyan connects students with verified, experienced home tutors for Class 1-12, Board Exams, NEET & JEE preparation. Personalized learning, guaranteed results.
           </motion.p>
 
           <motion.div
@@ -58,16 +58,16 @@ export default function Hero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Book a Tutor
+              Book Free Demo Class
               <ArrowRight size={20} />
             </motion.a>
             <motion.a
-              href="/services"
+              href="tel:+917503219801"
               className={styles.secondaryBtn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Our Services
+              Call Now
             </motion.a>
           </motion.div>
         </motion.div>

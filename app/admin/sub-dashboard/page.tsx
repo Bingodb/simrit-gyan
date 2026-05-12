@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import styles from './sub-dashboard.module.css'
-import { MapPin, LogOut, Phone, Users, BookOpen, Plus, Trash2, Eye, EyeOff, User, FileText, ClipboardList, Bell, Menu, X, Image as ImageIcon, Upload, ZoomIn, ZoomOut } from 'lucide-react'
+import { MapPin, LogOut, Phone, Users, BookOpen, Plus, Trash2, Eye, EyeOff, User, FileText, ClipboardList, Bell, Menu, X } from 'lucide-react'
 
 type SessionInfo = { phone: string; location: string; name: string }
 type Teacher = { phone: string; name: string; subject: string; location: string; createdAt: string }
@@ -21,7 +21,6 @@ type Enquiry = {
   _id: string; name: string; phone: string; studentClass: string; subject: string
   city: string; area: string; message: string; status: string; createdAt: string
 }
-type GalleryImg = { _id: string; url: string; caption: string; size: number; uploadedBy: string }
 
 const LOC_COLORS: Record<string, string> = {
   'Hauz Khas': '#667eea', 'Gurgaon': '#43e97b',
@@ -34,7 +33,7 @@ const CLASSES = ['1','2','3','4','5','6','7','8','9','10','11','12']
 export default function SubDashboard() {
   const router = useRouter()
   const [info, setInfo] = useState<SessionInfo | null>(null)
-  const [tab, setTab] = useState<'teachers' | 'leads' | 'applications' | 'enquiries' | 'gallery'>('enquiries')
+  const [tab, setTab] = useState<'teachers' | 'leads' | 'applications' | 'enquiries'>('enquiries')
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const switchTab = (t: typeof tab) => { setTab(t); setSidebarOpen(false) }
@@ -68,27 +67,18 @@ export default function SubDashboard() {
   // Enquiries state
   const [enquiries, setEnquiries] = useState<Enquiry[]>([])
 
-  // Gallery state
-  const [galleryImages, setGalleryImages] = useState<GalleryImg[]>([])
-  const [gUploading, setGUploading] = useState(false)
-  const [gCaption, setGCaption] = useState('')
-  const [gError, setGError] = useState('')
-  const [gSuccess, setGSuccess] = useState('')
-
   useEffect(() => {
     fetch('/api/admin/sub-session').then(r => r.json()).then(d => { if (d.phone) setInfo(d) })
     fetchTeachers()
     fetchLeads()
     fetchApplications()
     fetchEnquiries()
-    fetchGallery()
   }, [])
 
   const fetchTeachers = () => fetch('/api/subadmin/teachers').then(r => r.json()).then(d => { if (Array.isArray(d)) setTeachers(d) })
   const fetchLeads = () => fetch('/api/subadmin/leads').then(r => r.json()).then(d => { if (Array.isArray(d)) setLeads(d) })
   const fetchApplications = () => fetch('/api/subadmin/applications').then(r => r.json()).then(d => { if (Array.isArray(d)) setApplications(d) })
   const fetchEnquiries = () => fetch('/api/subadmin/enquiries').then(r => r.json()).then(d => { if (Array.isArray(d)) setEnquiries(d) })
-  const fetchGallery = () => fetch('/api/subadmin/gallery').then(r => r.json()).then(d => { if (Array.isArray(d)) setGalleryImages(d) })
 
   const handleLogout = async () => {
     await fetch('/api/admin/sub-logout', { method: 'POST' })
@@ -255,11 +245,6 @@ export default function SubDashboard() {
               <span className={styles.navBadge}>{applications.filter(a => a.status === 'pending').length}</span>
             )}
           </button>
-          <button className={`${styles.navItem} ${tab === 'gallery' ? styles.active : ''}`}
-            style={tab === 'gallery' ? { background: color + '18', color } : {}}
-            onClick={() => switchTab('gallery')}>
-            <ImageIcon size={18} /> Gallery
-          </button>
         </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}><LogOut size={18} /> Logout</button>
       </aside>
@@ -269,7 +254,7 @@ export default function SubDashboard() {
           <div className={styles.topbarLeft}>
             <button className={styles.hamburger} onClick={() => setSidebarOpen(true)}><Menu size={22} /></button>
             <div>
-              <h1 className={styles.pageTitle}>{tab === 'leads' ? 'Student Leads' : tab === 'teachers' ? 'Teachers' : tab === 'applications' ? 'Applications' : tab === 'gallery' ? 'Gallery' : 'Enquiries'}</h1>
+              <h1 className={styles.pageTitle}>{tab === 'leads' ? 'Student Leads' : tab === 'teachers' ? 'Teachers' : tab === 'applications' ? 'Applications' : 'Enquiries'}</h1>
               <p className={styles.pageSubtitle}>{info ? `${info.name} · ${info.location}` : 'Loading...'}</p>
             </div>
           </div>

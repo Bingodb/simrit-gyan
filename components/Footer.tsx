@@ -24,8 +24,8 @@ export default function Footer() {
             viewport={{ once: true }}
             className={styles.column}
           >
-            <h3 className={styles.logo}>SIMRIT GYAN</h3>
-            <p className={styles.tagline}>Empowering students with quality home tuition across India</p>
+            <h3 className={styles.logo}>SimritGyan</h3>
+            <p className={styles.tagline}>India's trusted home tuition platform connecting students with verified, experienced tutors for personalized learning.</p>
             <div className={styles.social}>
               {socials.map(({ icon: Icon, href, label }) => (
                 <motion.a
@@ -55,12 +55,31 @@ export default function Footer() {
             <ul>
               {[
                 { name: 'Home', path: '/' },
+                { name: 'About Us', path: '/about' },
                 { name: 'Services', path: '/services' },
-                { name: 'About', path: '/about' },
+                { name: 'Subjects', path: '/services' },
+                { name: 'Our Tutors', path: '/join-as-tutor' },
                 { name: 'Pricing', path: '/pricing' },
-                { name: 'Gallery', path: '/gallery' },
-                { name: 'Join as Tutor', path: '/join-as-tutor' },
-                { name: 'Contact', path: '/contact' },
+              ].map(link => (
+                <li key={link.name}><a href={link.path}>{link.name}</a></li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className={styles.column}
+          >
+            <h4>Locations</h4>
+            <ul>
+              {[
+                { name: 'Gurgaon', path: '/locations/gurgaon' },
+                { name: 'Hauz Khas (South Delhi)', path: '/locations/hauz-khas' },
+                { name: 'Uttam Nagar (West Delhi)', path: '/locations/uttam-nagar' },
+                { name: 'Rajinder Nagar (Central Delhi)', path: '/locations/rajinder-nagar' },
               ].map(link => (
                 <li key={link.name}><a href={link.path}>{link.name}</a></li>
               ))}
@@ -76,18 +95,19 @@ export default function Footer() {
           >
             <h4>Contact</h4>
             <ul className={styles.contact}>
-              <li><Mail size={18} /><span>info@simritgyan.com</span></li>
-              <li><Phone size={18} /><span>+91 987654321</span></li>
-              <li><MapPin size={18} /><span>Multiple Cities, India</span></li>
+              <li><Phone size={18} /><span>+91-7503219801</span></li>
+              <li><Mail size={18} /><span>simritGyan1@gmail.com</span></li>
+              <li><a href="https://wa.me/918800535421" target="_blank" rel="noopener noreferrer">WhatsApp Us</a></li>
             </ul>
           </motion.div>
         </div>
 
         <div className={styles.bottom}>
-          <p>&copy; 2026 Simrit Gyan Pvt Ltd. All rights reserved.</p>
+          <p>&copy; 2024 Simrit Gyan. All rights reserved.</p>
           <div className={styles.legal}>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
+            <a href="#">Refund Policy</a>
           </div>
         </div>
       </div>

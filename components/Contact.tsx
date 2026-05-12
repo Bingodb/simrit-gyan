@@ -39,16 +39,16 @@ export default function Contact() {
               <p>Multiple Cities Across India</p>
             </div>
             <div className={styles.infoCard}>
-              <h3>📞 Phone</h3>
-              <p>+91 987654321</p>
+              <h3>📞 Call Us</h3>
+              <p>+91-7503219801</p>
+            </div>
+            <div className={styles.infoCard}>
+              <h3>💬 WhatsApp</h3>
+              <p>+91-8800535421</p>
             </div>
             <div className={styles.infoCard}>
               <h3>✉️ Email</h3>
-              <p>info@simritgyan.com</p>
-            </div>
-            <div className={styles.infoCard}>
-              <h3>🕒 Working Hours</h3>
-              <p>Mon - Sat: 8:00 AM - 8:00 PM</p>
+              <p>simritGyan1@gmail.com</p>
             </div>
           </div>
 

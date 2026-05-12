@@ -11,7 +11,6 @@ const navLinks = [
   { name: 'Need a Tutor', path: '/need-a-tutor' },
   { name: 'About', path: '/about' },
   { name: 'Pricing', path: '/pricing' },
-  { name: 'Gallery', path: '/gallery' },
   { name: 'Join as Tutor', path: '/join-as-tutor' },
   { name: 'Contact', path: '/contact' },
 ]

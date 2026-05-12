@@ -89,14 +89,12 @@ const StudentEnquirySchema = new Schema({
 
 export const StudentEnquiry = models.StudentEnquiry || mongoose.model('StudentEnquiry', StudentEnquirySchema)
 
-// ── Gallery Image ──
-const GalleryImageSchema = new Schema({
-  url:        { type: String, required: true },  // base64 data URL
-  caption:    { type: String, default: '' },
-  size:       { type: Number, default: 1 },      // 1 = normal, 2 = wide (2 cols), 0.5 = small
-  uploadedBy: { type: String, required: true },  // subadmin phone
-  location:   { type: String, required: true },  // subadmin location
-  createdAt:  { type: String, default: () => new Date().toISOString().split('T')[0] },
+// ── Location ──
+const LocationSchema = new Schema({
+  name:      { type: String, required: true, unique: true },
+  color:     { type: String, default: '#667eea' },
+  active:    { type: Boolean, default: true },
+  createdAt: { type: String, default: () => new Date().toISOString().split('T')[0] },
 })
 
-export const GalleryImage = models.GalleryImage || mongoose.model('GalleryImage', GalleryImageSchema)
+export const Location = models.Location || mongoose.model('Location', LocationSchema)
