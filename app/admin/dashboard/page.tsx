@@ -123,7 +123,7 @@ export default function Dashboard() {
     setLoading(false)
     if (res.ok) {
       setFormSuccess('Sub admin created!')
-      setForm({ phone: '', password: '', location: LOCATIONS[0], name: '' })
+      setForm({ phone: '', password: '', location: locations[0]?.name || '', name: '' })
       setShowForm(false); fetchSubAdmins()
     } else { const d = await res.json(); setFormError(d.error || 'Failed') }
   }
