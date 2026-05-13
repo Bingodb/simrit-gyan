@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, User, BookOpen, MapPin, MessageSquare, Sparkles } from 'lucide-react'
 import styles from './NeedATutor.module.css'
@@ -12,8 +12,6 @@ const SUBJECTS = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English',
   'Hindi', 'Science', 'Social Studies', 'Computer Science', 'Accountancy',
   'Economics', 'All Subjects', 'Other']
 
-const AREAS = ['Hauz Khas', 'Gurgaon', 'Connaught Place', 'Uttam Nagar']
-
 export default function NeedATutor() {
   const [form, setForm] = useState({
     name: '', phone: '', studentClass: '', subject: '', city: '', area: '', message: ''
@@ -21,6 +19,19 @@ export default function NeedATutor() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [locations, setLocations] = useState<string[]>([])
+
+  useEffect(() => {
+    fetch('/api/public/locations')
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          // Extract just the names from the location objects
+          setLocations(data.map((loc: any) => loc.name))
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
 
@@ -87,7 +98,7 @@ export default function NeedATutor() {
           </div>
 
           <div className={styles.locationTags}>
-            {AREAS.map(a => (
+            {locations.map(a => (
               <span key={a} className={styles.locTag}><MapPin size={12} />{a}</span>
             ))}
           </div>
@@ -145,7 +156,7 @@ export default function NeedATutor() {
                   <label><MapPin size={14} /> Area *</label>
                   <select value={form.area} onChange={e => set('area', e.target.value)} required>
                     <option value="">Select area</option>
-                    {AREAS.map(a => <option key={a} value={a}>{a}</option>)}
+                    {locations.map(a => <option key={a} value={a}>{a}</option>)}
                   </select>
                 </div>
               </div>

@@ -11,9 +11,9 @@ export default function ServicesPage() {
     <main>
       <Header />
       <ServicesHero />
+      <LocationsSection />
       <ServicesDetailed />
       <SubjectsGrid />
-      <LocationsSection />
       <CTA />
       <Footer />
     </main>

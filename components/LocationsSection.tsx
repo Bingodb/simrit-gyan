@@ -5,6 +5,14 @@ import styles from './LocationsSection.module.css'
 
 const locations = [
   {
+    name: 'Delhi',
+    subtitle: 'South, West & Central Delhi',
+    areas: 'Hauz Khas, Uttam Nagar, Rajinder Nagar, Karol Bagh & 40+ areas',
+    tutors: '630+',
+    link: '/locations/delhi',
+    gradient: 'linear-gradient(135deg, #f093fb, #f5576c)'
+  },
+  {
     name: 'Gurgaon',
     subtitle: 'Gurugram',
     areas: 'DLF, Sohna Road, Golf Course Road, All Sectors',
@@ -12,30 +20,6 @@ const locations = [
     link: '/locations/gurgaon',
     gradient: 'linear-gradient(135deg, #667eea, #764ba2)'
   },
-  {
-    name: 'Hauz Khas',
-    subtitle: 'South Delhi',
-    areas: 'Hauz Khas, Green Park, Safdarjung, IIT Area, Malviya Nagar',
-    tutors: '200+',
-    link: '/locations/hauz-khas',
-    gradient: 'linear-gradient(135deg, #f093fb, #f5576c)'
-  },
-  {
-    name: 'Uttam Nagar',
-    subtitle: 'West Delhi',
-    areas: 'Uttam Nagar, Janakpuri, Dwarka Mor, Tilak Nagar, Vikaspuri',
-    tutors: '250+',
-    link: '/locations/uttam-nagar',
-    gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)'
-  },
-  {
-    name: 'Rajinder Nagar',
-    subtitle: 'Central Delhi',
-    areas: 'Rajinder Nagar, Karol Bagh, Patel Nagar, Connaught Place',
-    tutors: '180+',
-    link: '/locations/rajinder-nagar',
-    gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)'
-  }
 ]
 
 export default function LocationsSection() {

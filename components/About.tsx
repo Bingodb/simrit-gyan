@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion'
 import { CheckCircle, MapPin, Award, Users, BookOpen, Star, Linkedin, Mail } from 'lucide-react'
 
-const team = [
+const coreValues = [
   {
     role: 'Our Mission',
     emoji: '🎯',
@@ -23,6 +23,49 @@ const team = [
     gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
     ring: 'rgba(67,233,123,0.5)',
     bio: 'Integrity, student-first approach, continuous improvement, and commitment to results drive everything we do at Simrit Gyan.',
+  },
+]
+
+const team = [
+  {
+    name: 'Girish Vats',
+    role: 'CEO & Founder',
+    image: '/images/founder and ceo.jpg',
+    gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+    ring: 'rgba(102,126,234,0.5)',
+    bio: 'Visionary leader with 15+ years in education, Girish founded Simrit Gyan to revolutionize home tuition and make quality education accessible to every student.',
+    linkedin: '#',
+    email: 'girish@simritgyan.com'
+  },
+  {
+    name: 'Anuj Jha',
+    role: 'Managing Director',
+    image: '/images/team/md.jpg',
+    gradient: 'linear-gradient(135deg, #f093fb, #f5576c)',
+    ring: 'rgba(240,147,251,0.5)',
+    bio: 'Leading operations and strategic growth, Anuj ensures excellence and consistency across all our services nationwide.',
+    linkedin: '#',
+    email: 'anuj@simritgyan.com'
+  },
+  {
+    name: 'Chetan Kohli',
+    role: 'Head of Academics',
+    image: '/images/team/hoa.jpg',
+    gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
+    ring: 'rgba(67,233,123,0.5)',
+    bio: 'Former IIT professor with 20+ years of teaching experience, Chetan leads our curriculum and tutor training.',
+    linkedin: '#',
+    email: 'chetan@simritgyan.com'
+  },
+  {
+    name: 'Sneha Patel',
+    role: 'Head of Operations',
+    image: '/images/team/hoo.jpg',
+    gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+    ring: 'rgba(79,172,254,0.5)',
+    bio: 'Sneha manages our nationwide operations, ensuring seamless tutor-student matching and service delivery.',
+    linkedin: '#',
+    email: 'sneha@simritgyan.com'
   },
 ]
 import styles from './About.module.css'
@@ -132,6 +175,43 @@ export default function About() {
           </motion.div>
         </div>
 
+        {/* ── Mission, Vision, Values Section ── */}
+        <motion.div
+          className={styles.valuesSection}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className={styles.valuesHeader}>
+            <span className={styles.badge}>Our Core Values</span>
+            <h2 className={styles.valuesTitle}>What Drives <span className={styles.gold}>Us</span></h2>
+            <p className={styles.valuesSubtitle}>The principles that guide everything we do at Simrit Gyan</p>
+          </div>
+
+          <div className={styles.valuesGrid}>
+            {coreValues.map((value, i) => (
+              <motion.div
+                key={i}
+                className={styles.valueCard}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.12 }}
+                whileHover={{ y: -10 }}
+              >
+                <div className={styles.valueIcon} style={{ background: value.gradient }}>
+                  <span className={styles.valueEmoji}>{value.emoji}</span>
+                </div>
+
+                <div className={styles.valueInfo}>
+                  <h3 className={styles.valueRole}>{value.role}</h3>
+                  <p className={styles.valueBio}>{value.bio}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* ── Locations ── */}
         <motion.div
           className={styles.locationsSection}
@@ -185,9 +265,9 @@ export default function About() {
           viewport={{ once: true }}
         >
           <div className={styles.teamHeader}>
-            <span className={styles.badge}>Our Core Values</span>
-            <h2 className={styles.teamTitle}>What Drives <span className={styles.gold}>Us</span></h2>
-            <p className={styles.teamSubtitle}>The principles that guide everything we do at Simrit Gyan</p>
+            <span className={styles.badge}>👥 Meet Our Team</span>
+            <h2 className={styles.teamTitle}>The People Behind <span className={styles.gold}>Simrit Gyan</span></h2>
+            <p className={styles.teamSubtitle}>Passionate educators and professionals dedicated to transforming education</p>
           </div>
 
           <div className={styles.teamGrid}>
@@ -201,11 +281,17 @@ export default function About() {
                 transition={{ delay: i * 0.12 }}
                 whileHover={{ y: -10 }}
               >
-                {/* Outer ring */}
+                {/* Profile image with ring */}
                 <div className={styles.ringWrapper}>
                   <div className={styles.ringOuter} style={{ borderColor: member.ring, boxShadow: `0 0 30px ${member.ring}` }}>
                     <div className={styles.ringInner} style={{ background: member.gradient }}>
-                      <span className={styles.memberEmoji}>{member.emoji}</span>
+                      <div className={styles.memberImage}>
+                        {member.image.includes('founder and ceo') ? (
+                          <img src={member.image} alt={member.name} className={styles.memberPhoto} />
+                        ) : (
+                          <span className={styles.memberInitial}>{member.name.charAt(0)}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                   {/* Rotating dashed ring */}
@@ -213,13 +299,14 @@ export default function About() {
                 </div>
 
                 <div className={styles.memberInfo}>
+                  <h3 className={styles.memberName}>{member.name}</h3>
                   <span className={styles.memberRole} style={{ backgroundImage: member.gradient }}>{member.role}</span>
                   <p className={styles.memberBio}>{member.bio}</p>
                   <div className={styles.memberLinks}>
-                    <motion.a href="#" className={styles.memberLink} style={{ background: member.gradient }} whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }}>
+                    <motion.a href={member.linkedin} className={styles.memberLink} style={{ background: member.gradient }} whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }}>
                       <Linkedin size={16} />
                     </motion.a>
-                    <motion.a href="#" className={styles.memberLink} style={{ background: member.gradient }} whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }}>
+                    <motion.a href={`mailto:${member.email}`} className={styles.memberLink} style={{ background: member.gradient }} whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }}>
                       <Mail size={16} />
                     </motion.a>
                   </div>

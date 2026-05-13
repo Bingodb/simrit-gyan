@@ -76,10 +76,8 @@ export default function Footer() {
             <h4>Locations</h4>
             <ul>
               {[
+                { name: 'Delhi (All Areas)', path: '/locations/delhi' },
                 { name: 'Gurgaon', path: '/locations/gurgaon' },
-                { name: 'Hauz Khas (South Delhi)', path: '/locations/hauz-khas' },
-                { name: 'Uttam Nagar (West Delhi)', path: '/locations/uttam-nagar' },
-                { name: 'Rajinder Nagar (Central Delhi)', path: '/locations/rajinder-nagar' },
               ].map(link => (
                 <li key={link.name}><a href={link.path}>{link.name}</a></li>
               ))}

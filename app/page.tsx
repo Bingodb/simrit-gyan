@@ -2,6 +2,7 @@ import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Boards from '@/components/Boards'
 import HowItWorks from '@/components/HowItWorks'
+import LocationsSection from '@/components/LocationsSection'
 import Features from '@/components/Features'
 import Stats from '@/components/Stats'
 import Testimonials from '@/components/Testimonials'
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <Boards />
       <HowItWorks />
+      <LocationsSection />
       <Features />
       <Stats />
       <Testimonials />

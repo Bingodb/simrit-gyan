@@ -51,7 +51,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   margin-bottom: 40px;
 }
@@ -175,6 +175,13 @@
   font-style: italic;
 }
 
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .locations {
     padding: 60px 20px;
@@ -186,5 +193,13 @@
 
   .grid {
     grid-template-columns: 1fr;
+  }
+  
+  .card {
+    padding: 30px 20px;
+  }
+  
+  .locationName {
+    font-size: 1.6rem;
   }
 }
