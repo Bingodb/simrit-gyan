@@ -22,11 +22,11 @@ export async function POST() {
   }
 
   const defaultLocations = [
-    { name: 'Hauz Khas', color: '#667eea', active: true },
-    { name: 'Gurgaon', color: '#43e97b', active: true },
-    { name: 'Connaught Place', color: '#f7971e', active: true },
-    { name: 'Uttam Nagar', color: '#f093fb', active: true },
-    { name: 'Rajinder Nagar', color: '#38f9d7', active: true },
+    { name: 'DELHI', color: '#ec0e0e', active: true },
+    { name: 'South Delhi', color: '#eb15ef', active: true },
+    { name: 'South West Delhi', color: '#ff570f', active: true },
+    { name: 'Central Delhi', color: '#00ffaa', active: true },
+    { name: 'Gurgaon', color: '#00ff62', active: true },
   ]
 
   await Location.insertMany(defaultLocations)
