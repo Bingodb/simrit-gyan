@@ -5,36 +5,12 @@ import styles from './LocationsSection.module.css'
 
 const locations = [
   {
-    name: 'DELHI',
-    subtitle: 'Central Delhi',
-    areas: 'Karol Bagh, Connaught Place, Paharganj & nearby areas',
-    tutors: '150+',
+    name: 'Delhi',
+    subtitle: 'All Delhi Areas',
+    areas: 'South Delhi, South West Delhi, Central Delhi, Karol Bagh & 40+ areas',
+    tutors: '650+',
     link: '/locations/delhi',
-    gradient: 'linear-gradient(135deg, #ec0e0e, #ff4444)'
-  },
-  {
-    name: 'South Delhi',
-    subtitle: 'South Delhi',
-    areas: 'Hauz Khas, Saket, Greater Kailash, Malviya Nagar & more',
-    tutors: '200+',
-    link: '/locations/south-delhi',
-    gradient: 'linear-gradient(135deg, #eb15ef, #ff6bff)'
-  },
-  {
-    name: 'South West Delhi',
-    subtitle: 'South West Delhi',
-    areas: 'Uttam Nagar, Dwarka, Janakpuri, Vikaspuri & more',
-    tutors: '180+',
-    link: '/locations/south-west-delhi',
-    gradient: 'linear-gradient(135deg, #ff570f, #ff8844)'
-  },
-  {
-    name: 'Central Delhi',
-    subtitle: 'Central Delhi',
-    areas: 'Rajinder Nagar, Patel Nagar, Karol Bagh & nearby',
-    tutors: '120+',
-    link: '/locations/central-delhi',
-    gradient: 'linear-gradient(135deg, #00ffaa, #44ffcc)'
+    gradient: 'linear-gradient(135deg, #f093fb, #f5576c)'
   },
   {
     name: 'Gurgaon',
@@ -42,7 +18,7 @@ const locations = [
     areas: 'DLF, Sohna Road, Golf Course Road, All Sectors',
     tutors: '300+',
     link: '/locations/gurgaon',
-    gradient: 'linear-gradient(135deg, #00ff62, #44ff88)'
+    gradient: 'linear-gradient(135deg, #667eea, #764ba2)'
   },
 ]
 
