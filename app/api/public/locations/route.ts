@@ -6,16 +6,17 @@ import { Location } from '@/lib/models'
 export async function GET() {
   try {
     await connectDB()
-    const locations = await Location.find({ active: true }).select('name color').sort({ name: 1 }).lean()
+    const locations = await Location.find({ active: true }).select('name color active').sort({ name: 1 }).lean()
     return NextResponse.json(locations)
   } catch (error) {
     console.error('Error fetching locations:', error)
     // Return default locations as fallback
     return NextResponse.json([
-      { name: 'Hauz Khas', color: '#667eea' },
-      { name: 'Gurgaon', color: '#43e97b' },
-      { name: 'Connaught Place', color: '#f7971e' },
-      { name: 'Uttam Nagar', color: '#f093fb' },
+      { name: 'DELHI', color: '#ec0e0e', active: true },
+      { name: 'South Delhi', color: '#eb15ef', active: true },
+      { name: 'South West Delhi', color: '#ff570f', active: true },
+      { name: 'Central Delhi', color: '#00ffaa', active: true },
+      { name: 'Gurgaon', color: '#00ff62', active: true },
     ])
   }
 }

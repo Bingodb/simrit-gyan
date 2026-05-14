@@ -38,11 +38,17 @@ export default function JoinAsTutor() {
     fetch('/api/public/locations')
       .then(res => res.json())
       .then(data => {
+        console.log('Locations fetched:', data) // Debug log
         if (Array.isArray(data)) {
-          setLocations(data.filter((loc: any) => loc.active).map((loc: any) => loc.name))
+          const locationNames = data.map((loc: any) => loc.name)
+          console.log('Location names:', locationNames) // Debug log
+          setLocations(locationNames)
         }
       })
-      .catch(() => setLocations(['Hauz Khas', 'Gurgaon', 'Connaught Place', 'Uttam Nagar'])) // Fallback
+      .catch(err => {
+        console.error('Error fetching locations:', err)
+        setLocations(['DELHI', 'South Delhi', 'South West Delhi', 'Central Delhi', 'Gurgaon'])
+      })
   }, [])
 
   // File state — track selected files so names display correctly
