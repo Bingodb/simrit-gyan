@@ -29,13 +29,23 @@ const coreValues = [
 const team = [
   {
     name: 'Girish Vats',
-    role: 'CEO & Founder',
+    role: 'CEO',
     image: '/images/founder and ceo.jpg',
     gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
     ring: 'rgba(102,126,234,0.5)',
     bio: 'Visionary leader with 15+ years in education, Girish founded Simrit Gyan to revolutionize home tuition and make quality education accessible to every student.',
     linkedin: '#',
     email: 'girish@simritgyan.com'
+  },
+  {
+    name: 'Chetan Kohli',
+    role: 'Founder & Head of Academics',
+    image: '/images/team/hoa.jpg',
+    gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
+    ring: 'rgba(67,233,123,0.5)',
+    bio: 'Former IIT professor with 20+ years of teaching experience, Chetan leads our curriculum and tutor training.',
+    linkedin: '#',
+    email: 'chetan@simritgyan.com'
   },
   {
     name: 'Anuj Jha',
@@ -46,26 +56,6 @@ const team = [
     bio: 'Leading operations and strategic growth, Anuj ensures excellence and consistency across all our services nationwide.',
     linkedin: '#',
     email: 'anuj@simritgyan.com'
-  },
-  {
-    name: 'Chetan Kohli',
-    role: 'Head of Academics',
-    image: '/images/team/hoa.jpg',
-    gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)',
-    ring: 'rgba(67,233,123,0.5)',
-    bio: 'Former IIT professor with 20+ years of teaching experience, Chetan leads our curriculum and tutor training.',
-    linkedin: '#',
-    email: 'chetan@simritgyan.com'
-  },
-  {
-    name: 'Sneha Patel',
-    role: 'Head of Operations',
-    image: '/images/team/hoo.jpg',
-    gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
-    ring: 'rgba(79,172,254,0.5)',
-    bio: 'Sneha manages our nationwide operations, ensuring seamless tutor-student matching and service delivery.',
-    linkedin: '#',
-    email: 'sneha@simritgyan.com'
   },
 ]
 import styles from './About.module.css'

@@ -9,8 +9,8 @@ export default function JoinAsTutorPage() {
     <main>
       <Header />
       <TutorsHero />
-      <TutorsShowcase />
       <JoinAsTutor />
+      <TutorsShowcase />
       <Footer />
     </main>
   )
