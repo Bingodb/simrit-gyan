@@ -53,12 +53,12 @@ export default function Hero() {
             className={styles.buttons}
           >
             <motion.a
-              href="/contact"
+              href="/need-a-tutor"
               className={styles.primaryBtn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Book Free Demo Class
+              Get in Touch
               <ArrowRight size={20} />
             </motion.a>
             <motion.a

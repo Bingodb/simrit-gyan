@@ -39,6 +39,21 @@ export async function POST(req: Request) {
     }
 
     await connectDB()
+    
+    // Check for duplicate submissions (same phone within last 5 minutes)
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000)
+    const phone = get('phone')
+    const recentApp = await TutorApplication.findOne({
+      phone,
+      createdAt: { $gte: fiveMinutesAgo }
+    })
+    
+    if (recentApp) {
+      // Return success but don't create duplicate
+      console.log('Duplicate tutor application prevented for phone:', phone)
+      return NextResponse.json({ ok: true, id: recentApp._id, duplicate: true })
+    }
+    
     const app = await TutorApplication.create({
       fullName:      get('fullName'),
       email:         get('email'),

@@ -59,6 +59,8 @@ export default function Dashboard() {
   const [filterLoc, setFilterLoc] = useState('all')
   const [expandedApp, setExpandedApp] = useState<string | null>(null)
   const [activitiesLoaded, setActivitiesLoaded] = useState(false)
+  const [byLocation, setByLocation] = useState<Record<string, any>>({})
+  const [viewMode, setViewMode] = useState<'all' | 'byLocation'>('byLocation') // New: view mode toggle
 
   const fetchSubAdmins = async () => {
     const res = await fetch('/api/admin/subadmins')
@@ -100,6 +102,7 @@ export default function Dashboard() {
       setTeachers(d.teachers || [])
       setApplications(d.applications || [])
       setEnquiries(d.enquiries || [])
+      setByLocation(d.byLocation || {}) // New: store grouped data
       setActivitiesLoaded(true)
     }
   }
@@ -249,7 +252,7 @@ export default function Dashboard() {
     setLocationSuccess('')
   }
 
-  const byLocation = locations.filter(loc => loc.active).map(loc => ({
+  const locationGroups = locations.filter(loc => loc.active).map(loc => ({
     location: loc.name, admins: subAdmins.filter(s => s.location === loc.name), color: loc.color,
   }))
 
@@ -267,7 +270,7 @@ export default function Dashboard() {
     }))
 
   // Combine active locations with orphaned locations
-  const allLocationGroups = [...byLocation, ...orphanedLocations]
+  const allLocationGroups = [...locationGroups, ...orphanedLocations]
 
   const LOCATION_NAMES = locations.filter(loc => loc.active).map(loc => loc.name)
   const LOC_COLORS: Record<string, string> = locations.reduce((acc, loc) => {
@@ -390,16 +393,92 @@ export default function Dashboard() {
                   </button>
                 ))}
               </div>
-              <div className={styles.locFilter}>
-                <MapPin size={13} />
-                <select value={filterLoc} onChange={e => setFilterLoc(e.target.value)}>
-                  <option value="all">All</option>
-                  {LOCATION_NAMES.map(l => <option key={l} value={l}>{l}</option>)}
-                </select>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <div className={styles.locFilter}>
+                  <MapPin size={13} />
+                  <select value={filterLoc} onChange={e => setFilterLoc(e.target.value)}>
+                    <option value="all">All</option>
+                    {LOCATION_NAMES.map(l => <option key={l} value={l}>{l}</option>)}
+                  </select>
+                </div>
+                <button 
+                  className={styles.viewToggle}
+                  onClick={() => setViewMode(viewMode === 'all' ? 'byLocation' : 'all')}
+                  style={{
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: viewMode === 'byLocation' ? 'rgba(102,126,234,0.2)' : 'rgba(255,255,255,0.05)',
+                    color: '#fff',
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {viewMode === 'byLocation' ? '📍 By Location' : '📋 All'}
+                </button>
               </div>
             </div>
 
-            {actTab === 'enquiries' && (
+            {actTab === 'enquiries' && viewMode === 'byLocation' && (
+              <div>
+                {Object.values(byLocation).map((locData: any) => {
+                  const locEnquiries = locData.enquiries || []
+                  if (filterLoc !== 'all' && locData.location !== filterLoc) return null
+                  if (locEnquiries.length === 0) return null
+                  
+                  const c = LOC_COLORS[locData.location] || '#43e97b'
+                  const subAdminNames = locData.subAdmins?.map((sa: any) => sa.name).join(', ') || 'No sub-admin'
+                  
+                  return (
+                    <div key={locData.location} style={{ marginBottom: '30px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 16px',
+                        background: `${c}15`,
+                        borderLeft: `4px solid ${c}`,
+                        borderRadius: '8px',
+                        marginBottom: '12px'
+                      }}>
+                        <MapPin size={18} style={{ color: c }} />
+                        <div style={{ flex: 1 }}>
+                          <h3 style={{ margin: 0, fontSize: '1.1rem', color: c }}>{locData.location}</h3>
+                          <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
+                            Sub-admin: {subAdminNames} · {locEnquiries.length} enquir{locEnquiries.length === 1 ? 'y' : 'ies'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className={styles.actList}>
+                        {locEnquiries.map((enq: any) => (
+                          <div key={enq._id} className={styles.actCard} style={{ borderLeftColor: c }}>
+                            <div className={styles.actAvatar} style={{ background: c + '18', color: c }}>{enq.name.charAt(0).toUpperCase()}</div>
+                            <div className={styles.actInfo}>
+                              <p className={styles.actName}>{enq.name}</p>
+                              <p className={styles.actMeta}><Phone size={11} /> {enq.phone} · {enq.studentClass} · {enq.subject}</p>
+                              <p className={styles.actMeta}><MapPin size={11} /> {enq.city}, {enq.area}</p>
+                            </div>
+                            <div className={styles.actRight}>
+                              <span className={styles.locPill} style={{ background: c + '18', color: c }}>{enq.area}</span>
+                              <span className={styles.statusPill} style={{ background: (STATUS_COLORS[enq.status] || c) + '18', color: STATUS_COLORS[enq.status] || c }}>{enq.status}</span>
+                              <span className={styles.actDate}>{enq.createdAt}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+                {Object.values(byLocation).every((locData: any) => 
+                  (filterLoc !== 'all' && locData.location !== filterLoc) || (locData.enquiries || []).length === 0
+                ) && (
+                  <div className={styles.empty}><Bell size={32} /><p>No enquiries found.</p></div>
+                )}
+              </div>
+            )}
+
+            {actTab === 'enquiries' && viewMode === 'all' && (
               <div className={styles.actList}>
                 {filteredEnquiries.length === 0 ? <div className={styles.empty}><Bell size={32} /><p>No enquiries found.</p></div>
                   : filteredEnquiries.map(enq => {
@@ -423,7 +502,65 @@ export default function Dashboard() {
               </div>
             )}
 
-            {actTab === 'leads' && (
+            {actTab === 'leads' && viewMode === 'byLocation' && (
+              <div>
+                {Object.values(byLocation).map((locData: any) => {
+                  const locLeads = locData.leads || []
+                  if (filterLoc !== 'all' && locData.location !== filterLoc) return null
+                  if (locLeads.length === 0) return null
+                  
+                  const c = LOC_COLORS[locData.location] || '#667eea'
+                  const subAdminNames = locData.subAdmins?.map((sa: any) => sa.name).join(', ') || 'No sub-admin'
+                  
+                  return (
+                    <div key={locData.location} style={{ marginBottom: '30px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 16px',
+                        background: `${c}15`,
+                        borderLeft: `4px solid ${c}`,
+                        borderRadius: '8px',
+                        marginBottom: '12px'
+                      }}>
+                        <MapPin size={18} style={{ color: c }} />
+                        <div style={{ flex: 1 }}>
+                          <h3 style={{ margin: 0, fontSize: '1.1rem', color: c }}>{locData.location}</h3>
+                          <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
+                            Sub-admin: {subAdminNames} · {locLeads.length} lead{locLeads.length === 1 ? '' : 's'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className={styles.actList}>
+                        {locLeads.map((lead: any) => (
+                          <div key={lead._id} className={styles.actCard} style={{ borderLeftColor: c }}>
+                            <div className={styles.actAvatar} style={{ background: c + '18', color: c }}>{lead.studentName.charAt(0).toUpperCase()}</div>
+                            <div className={styles.actInfo}>
+                              <p className={styles.actName}>{lead.studentName}</p>
+                              <p className={styles.actMeta}>Class {lead.class} · {lead.subject} · <Phone size={11} /> {lead.parentPhone}</p>
+                              <p className={styles.actMeta}>{lead.address}</p>
+                            </div>
+                            <div className={styles.actRight}>
+                              <span className={styles.locPill} style={{ background: c + '18', color: c }}>{lead.location}</span>
+                              <span className={styles.statusPill} style={{ background: (STATUS_COLORS[lead.status] || c) + '18', color: STATUS_COLORS[lead.status] || c }}>{lead.status}</span>
+                              <span className={styles.actDate}>{lead.createdAt}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+                {Object.values(byLocation).every((locData: any) => 
+                  (filterLoc !== 'all' && locData.location !== filterLoc) || (locData.leads || []).length === 0
+                ) && (
+                  <div className={styles.empty}><BookOpen size={32} /><p>No leads found.</p></div>
+                )}
+              </div>
+            )}
+
+            {actTab === 'leads' && viewMode === 'all' && (
               <div className={styles.actList}>
                 {filteredLeads.length === 0 ? <div className={styles.empty}><BookOpen size={32} /><p>No leads found.</p></div>
                   : filteredLeads.map(lead => {
@@ -447,7 +584,63 @@ export default function Dashboard() {
               </div>
             )}
 
-            {actTab === 'teachers' && (
+            {actTab === 'teachers' && viewMode === 'byLocation' && (
+              <div>
+                {Object.values(byLocation).map((locData: any) => {
+                  const locTeachers = locData.teachers || []
+                  if (filterLoc !== 'all' && locData.location !== filterLoc) return null
+                  if (locTeachers.length === 0) return null
+                  
+                  const c = LOC_COLORS[locData.location] || '#f093fb'
+                  const subAdminNames = locData.subAdmins?.map((sa: any) => sa.name).join(', ') || 'No sub-admin'
+                  
+                  return (
+                    <div key={locData.location} style={{ marginBottom: '30px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 16px',
+                        background: `${c}15`,
+                        borderLeft: `4px solid ${c}`,
+                        borderRadius: '8px',
+                        marginBottom: '12px'
+                      }}>
+                        <MapPin size={18} style={{ color: c }} />
+                        <div style={{ flex: 1 }}>
+                          <h3 style={{ margin: 0, fontSize: '1.1rem', color: c }}>{locData.location}</h3>
+                          <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
+                            Sub-admin: {subAdminNames} · {locTeachers.length} teacher{locTeachers.length === 1 ? '' : 's'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className={styles.actList}>
+                        {locTeachers.map((t: any) => (
+                          <div key={t._id} className={styles.actCard} style={{ borderLeftColor: c }}>
+                            <div className={styles.actAvatar} style={{ background: c + '18', color: c }}>{t.name.charAt(0).toUpperCase()}</div>
+                            <div className={styles.actInfo}>
+                              <p className={styles.actName}>{t.name}</p>
+                              <p className={styles.actMeta}><Phone size={11} /> {t.phone} · {t.subject}</p>
+                            </div>
+                            <div className={styles.actRight}>
+                              <span className={styles.locPill} style={{ background: c + '18', color: c }}>{t.location}</span>
+                              <span className={styles.actDate}>{t.createdAt}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+                {Object.values(byLocation).every((locData: any) => 
+                  (filterLoc !== 'all' && locData.location !== filterLoc) || (locData.teachers || []).length === 0
+                ) && (
+                  <div className={styles.empty}><GraduationCap size={32} /><p>No teachers found.</p></div>
+                )}
+              </div>
+            )}
+
+            {actTab === 'teachers' && viewMode === 'all' && (
               <div className={styles.actList}>
                 {filteredTeachers.length === 0 ? <div className={styles.empty}><GraduationCap size={32} /><p>No teachers found.</p></div>
                   : filteredTeachers.map(t => {
@@ -469,7 +662,84 @@ export default function Dashboard() {
               </div>
             )}
 
-            {actTab === 'applications' && (
+            {actTab === 'applications' && viewMode === 'byLocation' && (
+              <div>
+                {Object.values(byLocation).map((locData: any) => {
+                  const locApps = locData.applications || []
+                  if (filterLoc !== 'all' && locData.location !== filterLoc) return null
+                  if (locApps.length === 0) return null
+                  
+                  const c = LOC_COLORS[locData.location] || '#f7971e'
+                  const subAdminNames = locData.subAdmins?.map((sa: any) => sa.name).join(', ') || 'No sub-admin'
+                  
+                  return (
+                    <div key={locData.location} style={{ marginBottom: '30px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 16px',
+                        background: `${c}15`,
+                        borderLeft: `4px solid ${c}`,
+                        borderRadius: '8px',
+                        marginBottom: '12px'
+                      }}>
+                        <MapPin size={18} style={{ color: c }} />
+                        <div style={{ flex: 1 }}>
+                          <h3 style={{ margin: 0, fontSize: '1.1rem', color: c }}>{locData.location}</h3>
+                          <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
+                            Sub-admin: {subAdminNames} · {locApps.length} application{locApps.length === 1 ? '' : 's'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className={styles.actList}>
+                        {locApps.map((app: any) => {
+                          const isOpen = expandedApp === app._id
+                          return (
+                            <div key={app._id} className={styles.actCard} style={{ borderLeftColor: c }}>
+                              <div className={styles.appRow} onClick={() => setExpandedApp(isOpen ? null : app._id)}>
+                                <div className={styles.actAvatar} style={{ background: c + '18', color: c }}>{app.fullName.charAt(0).toUpperCase()}</div>
+                                <div className={styles.actInfo}>
+                                  <p className={styles.actName}>{app.fullName}</p>
+                                  <p className={styles.actMeta}><Phone size={11} /> {app.phone} · {app.qualification}</p>
+                                  <p className={styles.actMeta}>{app.subjects?.join(', ')}</p>
+                                </div>
+                                <div className={styles.actRight}>
+                                  <span className={styles.locPill} style={{ background: c + '18', color: c }}>{app.location}</span>
+                                  <span className={styles.statusPill} style={{ background: (STATUS_COLORS[app.status] || c) + '18', color: STATUS_COLORS[app.status] || c }}>{app.status}</span>
+                                  <span className={styles.actDate}>{app.createdAt}</span>
+                                  {isOpen ? <ChevronUp size={14} className={styles.chevron} /> : <ChevronDown size={14} className={styles.chevron} />}
+                                </div>
+                              </div>
+                              {isOpen && (
+                                <div className={styles.appExpanded}>
+                                  <div className={styles.appGrid}>
+                                    <div><span>Email</span><p>{app.email}</p></div>
+                                    <div><span>Address</span><p>{app.address}</p></div>
+                                    <div><span>Field of Study</span><p>{app.fieldOfStudy}</p></div>
+                                    <div><span>Preferred Class</span><p>{app.preferredClass}</p></div>
+                                    <div><span>Teaching Mode</span><p>{app.teachingMode}</p></div>
+                                    <div><span>Hours/Week</span><p>{app.hoursPerWeek}</p></div>
+                                    <div className={styles.fullCol}><span>Motivation</span><p>{app.motivation}</p></div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })}
+                {Object.values(byLocation).every((locData: any) => 
+                  (filterLoc !== 'all' && locData.location !== filterLoc) || (locData.applications || []).length === 0
+                ) && (
+                  <div className={styles.empty}><ClipboardList size={32} /><p>No applications found.</p></div>
+                )}
+              </div>
+            )}
+
+            {actTab === 'applications' && viewMode === 'all' && (
               <div className={styles.actList}>
                 {filteredApps.length === 0 ? <div className={styles.empty}><ClipboardList size={32} /><p>No applications found.</p></div>
                   : filteredApps.map(app => {

@@ -155,23 +155,37 @@ export default function GurgaonHero() {
                 <div className={styles.formRow}>
                   <select name="studentClass" value={formData.studentClass} onChange={handleChange} required>
                     <option value="">Class *</option>
-                    <option value="Class 1-5">Class 1-5</option>
-                    <option value="Class 6-8">Class 6-8</option>
-                    <option value="Class 9-10">Class 9-10</option>
-                    <option value="Class 11-12 Sci">Class 11-12 Sci</option>
-                    <option value="Class 11-12 Com">Class 11-12 Com</option>
-                    <option value="JEE/NEET">JEE/NEET</option>
+                    <option value="Class 1">Class 1</option>
+                    <option value="Class 2">Class 2</option>
+                    <option value="Class 3">Class 3</option>
+                    <option value="Class 4">Class 4</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                    <option value="Class 10">Class 10</option>
+                    <option value="Class 11">Class 11</option>
+                    <option value="Class 12">Class 12</option>
+                    <option value="Competitive Exams (JEE/NEET)">Competitive Exams (JEE/NEET)</option>
+                    <option value="Other">Other</option>
                   </select>
 
                   <select name="subject" value={formData.subject} onChange={handleChange} required>
                     <option value="">Subject *</option>
-                    <option value="All Subjects">All Subjects</option>
-                    <option value="Maths">Maths</option>
-                    <option value="Science">Science</option>
+                    <option value="Mathematics">Mathematics</option>
                     <option value="Physics">Physics</option>
                     <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
                     <option value="English">English</option>
-                    <option value="Accounts">Accounts</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Science">Science</option>
+                    <option value="Social Studies">Social Studies</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Accountancy">Accountancy</option>
+                    <option value="Economics">Economics</option>
+                    <option value="All Subjects">All Subjects</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 

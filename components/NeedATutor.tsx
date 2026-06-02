@@ -37,20 +37,31 @@ export default function NeedATutor() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prevent duplicate submissions
+    if (loading) return
+    
     setError('')
     setLoading(true)
-    const res = await fetch('/api/student-enquiry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
-    setLoading(false)
-    if (res.ok) {
-      setSuccess(true)
-      setForm({ name: '', phone: '', studentClass: '', subject: '', city: '', area: '', message: '' })
-    } else {
-      const d = await res.json()
-      setError(d.error || 'Something went wrong. Please try again.')
+    
+    try {
+      const res = await fetch('/api/student-enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      
+      if (res.ok) {
+        setSuccess(true)
+        setForm({ name: '', phone: '', studentClass: '', subject: '', city: '', area: '', message: '' })
+      } else {
+        const d = await res.json()
+        setError(d.error || 'Something went wrong. Please try again.')
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
     }
   }
 

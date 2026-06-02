@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import { StudentEnquiry } from '@/lib/models'
+import { getLocationForArea } from '@/lib/area-mapping'
 
 export async function POST(req: Request) {
   try {
@@ -14,7 +15,33 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Phone must be 10 digits' }, { status: 400 })
 
     await connectDB()
-    const enquiry = await StudentEnquiry.create({ name, phone, studentClass, subject, city, area, message: message || '' })
+    
+    // Map the area to the correct location/sub-admin
+    const mappedArea = getLocationForArea(area)
+    
+    // Check for duplicate submissions (same phone within last 2 minutes)
+    const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000)
+    const recentEnquiry = await StudentEnquiry.findOne({
+      phone,
+      createdAt: { $gte: twoMinutesAgo }
+    })
+    
+    if (recentEnquiry) {
+      // Return success but don't create duplicate
+      console.log('Duplicate submission prevented for phone:', phone)
+      return NextResponse.json({ ok: true, id: recentEnquiry._id, duplicate: true })
+    }
+    
+    const enquiry = await StudentEnquiry.create({ 
+      name, 
+      phone, 
+      studentClass, 
+      subject, 
+      city, 
+      area: mappedArea, // Use mapped location instead of raw area
+      message: message || '' 
+    })
+    
     return NextResponse.json({ ok: true, id: enquiry._id })
   } catch (err) {
     console.error(err)

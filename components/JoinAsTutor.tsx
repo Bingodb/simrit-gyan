@@ -103,6 +103,10 @@ export default function JoinAsTutor() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Prevent duplicate submissions
+    if (loading) return
+    
     if (!agreed) { setError('Please agree to the terms and conditions.'); return }
     if (selectedSubjects.length === 0) { setError('Please select at least one subject.'); return }
     if (!files.resume) { setError('Please upload your Resume/CV.'); return }
@@ -112,27 +116,32 @@ export default function JoinAsTutor() {
 
     setError(''); setLoading(true)
 
-    // Compress images client-side before sending to stay within MongoDB 16MB doc limit
-    const fd = new FormData()
-    Object.entries(form).forEach(([k, v]) => fd.append(k, v))
-    fd.append('subjects', JSON.stringify(selectedSubjects))
-    fd.append('timeSlots', JSON.stringify(selectedSlots))
-    for (const f of Array.from(files.resume!)) fd.append('resume', await prepareFile(f), f.name)
-    for (const f of Array.from(files.certificates!)) fd.append('certificates', await prepareFile(f), f.name)
-    fd.append('photo', await prepareFile(files.photo!), files.photo!.name)
-    fd.append('idproof', await prepareFile(files.idproof!), files.idproof!.name)
+    try {
+      // Compress images client-side before sending to stay within MongoDB 16MB doc limit
+      const fd = new FormData()
+      Object.entries(form).forEach(([k, v]) => fd.append(k, v))
+      fd.append('subjects', JSON.stringify(selectedSubjects))
+      fd.append('timeSlots', JSON.stringify(selectedSlots))
+      for (const f of Array.from(files.resume!)) fd.append('resume', await prepareFile(f), f.name)
+      for (const f of Array.from(files.certificates!)) fd.append('certificates', await prepareFile(f), f.name)
+      fd.append('photo', await prepareFile(files.photo!), files.photo!.name)
+      fd.append('idproof', await prepareFile(files.idproof!), files.idproof!.name)
 
-    const res = await fetch('/api/tutor-application', { method: 'POST', body: fd })
-    setLoading(false)
+      const res = await fetch('/api/tutor-application', { method: 'POST', body: fd })
 
-    if (res.ok) {
-      setSuccess(true)
-      setForm(INIT)
-      setSelectedSubjects([]); setSelectedSlots([]); setAgreed(false)
-      setFiles({ resume: null, certificates: null, photo: null, idproof: null })
-    } else {
-      const d = await res.json()
-      setError(d.error || 'Submission failed. Please try again.')
+      if (res.ok) {
+        setSuccess(true)
+        setForm(INIT)
+        setSelectedSubjects([]); setSelectedSlots([]); setAgreed(false)
+        setFiles({ resume: null, certificates: null, photo: null, idproof: null })
+      } else {
+        const d = await res.json()
+        setError(d.error || 'Submission failed. Please try again.')
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
