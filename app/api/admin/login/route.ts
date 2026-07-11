@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 const ADMIN_ID = 'simritgyan'
-const ADMIN_PASSWORD = 'SIMRITGYAN'
+const ADMIN_PASSWORD = 'GIRISH'
 const SESSION_TOKEN = 'sg_admin_session'
 const SECRET = 'sg-admin-secret-2026'
 
